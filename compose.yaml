@@ -1,0 +1,34 @@
+# docker compose up -d, after the first-run steps in the README (fetch, ingest, passwd).
+services:
+  olam:
+    build: .
+    image: olam
+    restart: unless-stopped
+    ports:
+      - "8462:8462"
+    volumes:
+      - olam-data:/data
+      # Your Obsidian vault, for the Map, People and Table screens and lesson notes:
+      # - /path/to/your/vault:/vault
+    environment:
+      # OLAM_VAULT: /vault
+      # For Ask, Summary, the Game Master and interviews:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      # With the kiwix service below running:
+      # OLAM_KIWIX_URL: http://localhost:8461
+
+  # The full archives in Kiwix, after `docker compose run --rm olam fetch zims`.
+  # Start it with: docker compose --profile kiwix up -d
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:3.8.2
+    profiles: [kiwix]
+    restart: unless-stopped
+    command: ["*.zim"]
+    working_dir: /data/zim
+    volumes:
+      - olam-data:/data:ro
+    ports:
+      - "8461:8080"
+
+volumes:
+  olam-data:

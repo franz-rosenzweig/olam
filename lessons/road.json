@@ -1,0 +1,295 @@
+{
+  "weeks": ["First Steps", "The Solo Road", "First Blood", "Behind the Screen", "Monsters & Mayhem", "The First Table"],
+  "regions": [
+    {"id": "heart", "name": "The D20 Heartland", "short": "D20 Heartland", "rules": [
+      "srd-2024/glossary/ability-check", "srd-2024/glossary/skill", "srd-2024/glossary/saving-throw", "srd-2024/glossary/attack-roll",
+      "srd-2024/glossary/proficiency", "srd-2024/glossary/difficulty-class", "srd-2024/glossary/advantage", "srd-2024/glossary/heroic-inspiration"]},
+    {"id": "combat", "name": "Combat Coast", "short": "Combat Coast", "rules": [
+      "srd-2024/glossary/initiative", "srd-2024/rule/combat_the-order-of-combat", "srd-2024/glossary/action", "srd-2024/glossary/bonus-action",
+      "srd-2024/glossary/reaction", "srd-2024/glossary/opportunity-attacks", "srd-2024/glossary/cover", "srd-2024/glossary/damage-roll",
+      "srd-2024/rule/damage-and-healing_dropping-to-zero-hit-points"]},
+    {"id": "fen", "name": "Conditions Fen", "short": "Conditions Fen", "rules": [
+      "srd-2024/condition/blinded", "srd-2024/condition/charmed", "srd-2024/condition/deafened", "srd-2024/condition/exhaustion",
+      "srd-2024/condition/frightened", "srd-2024/condition/grappled", "srd-2024/condition/incapacitated", "srd-2024/condition/invisible",
+      "srd-2024/condition/paralyzed", "srd-2024/condition/petrified", "srd-2024/condition/poisoned", "srd-2024/condition/prone",
+      "srd-2024/condition/restrained", "srd-2024/condition/stunned", "srd-2024/condition/unconscious"]},
+    {"id": "peaks", "name": "Spell Peaks", "short": "Spell Peaks", "rules": [
+      "srd-2024/glossary/spell", "srd-2024/glossary/cantrip", "srd-2024/glossary/concentration", "srd-2024/glossary/ritual",
+      "srd-2024/glossary/area-of-effect", "srd-2024/glossary/spell-attack"]},
+    {"id": "wilds", "name": "The Wilds", "short": "The Wilds", "rules": [
+      "srd-2024/rule/exploration_travel", "srd-2024/glossary/short-rest", "srd-2024/glossary/long-rest", "srd-2024/rule/exploration_vision-and-light",
+      "srd-2024/glossary/hide", "srd-2024/glossary/falling", "srd-2024/glossary/suffocation"]},
+    {"id": "court", "name": "Court of Tongues", "short": "Court of Tongues", "rules": [
+      "srd-2024/glossary/influence", "srd-2024/glossary/attitude", "srd-2024/rule/social-interaction_roleplaying", "srd-2024/skill/insight"]}
+  ],
+  "stops": [
+    {
+      "n": 1, "id": "session", "title": "What a session looks like", "track": "Play", "minutes": 15,
+      "teaches": ["srd-2024/rule/rhythm-of-play"],
+      "read": {
+        "lead": "D&D is a conversation with dice. The Game Master describes the world, the players say what their characters do, and the GM tells everyone what happens. Then it starts again.",
+        "cards": [
+          {"title": "1 · The GM describes", "text": "Where you are and what’s around you: the doors, the people, the smell of the place."},
+          {"title": "2 · You say what you do", "text": "Anything a person could try. Outside combat everyone gets a chance; in combat you take turns."},
+          {"title": "3 · The GM narrates", "text": "Often it just happens. When the outcome is uncertain, the GM asks for a roll."}
+        ],
+        "points": [
+          "**Three pillars.** Most of a session is social interaction (talking with people), exploration (finding your way through dangerous places) or combat.",
+          "**You roll only when it matters.** The dice come out when failure is possible and interesting. Walking across a room is just walking.",
+          "**Exceptions beat general rules.** When a spell or feature says something different from a general rule, the specific one wins. That one idea settles a lot of arguments."
+        ],
+        "sources": [
+          {"id": "srd-2024/rule/rhythm-of-play"}, {"id": "srd-2024/rule/social-interaction"}, {"id": "srd-2024/rule/exploration"},
+          {"zim": "rpg.stackexchange.com", "q": "first session new players"}
+        ]
+      },
+      "see": {
+        "lines": [
+          {"who": "GM", "text": "Rain drives you into the Low Lantern, a smoky inn. A hooded figure in the corner keeps glancing at the door. The innkeeper is wiping the same mug for the third time.", "tag": "1 · The GM describes"},
+          {"who": "Maren", "text": "I sit down next to the hooded figure and offer to buy them a drink.", "tag": "2 · A player says what they do"},
+          {"who": "GM", "text": "They look you over, deciding. Make a Charisma (Persuasion) check.", "tag": "Uncertain, so a roll"},
+          {"who": "Maren", "text": "I rolled 14, plus 4. That’s 18.", "tag": ""},
+          {"who": "GM", "text": "They lower the hood. “Kind of you. Do you know the road to Brinehold? I need someone who isn’t afraid of bells.”", "tag": "3 · The GM narrates, and it starts again"}
+        ]
+      },
+      "do": {
+        "type": "sort", "prompt": "Which pillar?", "buckets": ["Social", "Exploration", "Combat"],
+        "items": [
+          {"t": "Talking a guard into opening the gate", "a": "Social"},
+          {"t": "Searching a crypt for a hidden door", "a": "Exploration"},
+          {"t": "A goblin ambush on the road", "a": "Combat"},
+          {"t": "Haggling with a merchant", "a": "Social"},
+          {"t": "Crossing a rope bridge in a storm", "a": "Exploration"},
+          {"t": "The ogre charges, and everyone rolls Initiative", "a": "Combat"}
+        ]
+      },
+      "check": [
+        {"q": "In what order does play usually go?", "opts": ["Players roll, then the GM describes", "The GM describes, players say what they do, the GM narrates", "Everyone acts at once"], "correct": 1,
+         "why": "That’s the rhythm of play: describe, act, narrate, and back to the start.", "src": "srd-2024/rule/rhythm-of-play"},
+        {"q": "Your character walks across an empty room to open an unlocked door. Do you roll?", "opts": ["Yes, a Dexterity check", "No, it just happens", "Yes, a saving throw"], "correct": 1,
+         "why": "Rolls are for uncertain outcomes. The GM can simply say the door opens.", "src": "srd-2024/rule/rhythm-of-play"},
+        {"q": "A feature says you can make melee attacks with Charisma, but the combat rules say melee uses Strength. Which wins?", "opts": ["The combat rules", "The feature", "Roll to decide"], "correct": 1,
+         "why": "Exceptions supersede general rules: the specific feature wins.", "src": "srd-2024/rule/rhythm-of-play"}
+      ]
+    },
+    {
+      "n": 2, "id": "d20", "title": "The d20 test", "track": "Rules", "minutes": 20,
+      "teaches": ["srd-2024/glossary/ability-check", "srd-2024/glossary/difficulty-class", "srd-2024/glossary/proficiency"],
+      "read": {
+        "lead": "When the outcome is uncertain, roll a d20, add your modifiers, and compare the total to a target number. High is good.",
+        "cards": [
+          {"title": "Ability check", "text": "Using talent and training to beat a challenge: forcing a door, picking a lock, spotting a lie. Target: a Difficulty Class (DC)."},
+          {"title": "Saving throw", "text": "Resisting something that’s happening to you: fire, poison, a spell in your head. Target: the effect’s DC."},
+          {"title": "Attack roll", "text": "Trying to hit. Target: the other creature’s Armor Class (AC)."}
+        ],
+        "points": [
+          "**Roll, add, compare.** The d20, plus the ability modifier, plus your Proficiency Bonus if you’re proficient, plus any other bonus. Equal to or higher than the target succeeds.",
+          "**Modifiers come from scores.** 10–11 is +0. Each two points above adds 1, each two below takes 1 away: 16 is +3, 8 is −1.",
+          "**Proficiency Bonus.** +2 for a new character. Add it when you’re trained in the skill, save or weapon you’re using.",
+          "**Typical DCs.** Very easy 5 · Easy 10 · Medium 15 · Hard 20 · Very hard 25 · Nearly impossible 30."
+        ],
+        "sources": [
+          {"id": "srd-2024/rule/d20-tests"}, {"id": "srd-2024/rule/the-six-abilities_ability-modifiers"},
+          {"id": "srd-2024/rule/d20-tests_ability-checks"}, {"id": "srd-2024/rule/proficiency"},
+          {"zim": "rpg.stackexchange.com", "q": "ability modifier proficiency bonus new player"}
+        ]
+      },
+      "see": {
+        "text": "Ilse tries to force open a stuck door. The GM calls for a Strength (Athletics) check, DC 15. Ilse has Strength 16 (+3) and is proficient in Athletics (+2).",
+        "chips": ["Strength (Athletics)", "+3 Strength", "+2 Proficiency", "DC 15"],
+        "roll": {"bonus": 5, "target": 15, "target_label": "DC", "mode": "normal", "dice": [11]}
+      },
+      "do": {"type": "modifier"},
+      "check": [
+        {"q": "Your Wisdom score is 13. What’s your Wisdom modifier?", "opts": ["+1", "+3", "+13"], "correct": 0,
+         "why": "A score of 12–13 gives +1.", "src": "srd-2024/rule/the-six-abilities_ability-modifiers"},
+        {"q": "You roll 9 on an ability check. Your modifier is +3 and you’re proficient (+2). The DC is 15. Do you succeed?", "opts": ["Yes, 14 is close enough", "No, 14 is below 15", "Yes, because you’re proficient"], "correct": 1,
+         "why": "9 + 3 + 2 = 14, and you need 15 or more.", "src": "srd-2024/rule/d20-tests_ability-checks"},
+        {"q": "A dragon breathes fire at you. Which D20 Test do you make?", "opts": ["An attack roll", "A saving throw", "An ability check"], "correct": 1,
+         "why": "Saving throws are for resisting a threat, like a breath weapon or poison.", "src": "srd-2024/rule/d20-tests_saving-throw"}
+      ]
+    },
+    {
+      "n": 3, "id": "character", "title": "Your first character", "track": "Play", "minutes": 45,
+      "teaches": ["srd-2024/glossary/skill"],
+      "read": {
+        "lead": "A character is five choices: a class, an origin (a background and a species), ability scores, an alignment, and the details that make them yours.",
+        "points": [
+          "**1 · Class.** What you do best. Fighter and Rogue are the simplest to start with; Bard, Druid, Monk, Sorcerer, Warlock and Wizard have the most moving parts.",
+          "**2 · Origin.** A background is your life before adventuring: it gives a feat, two skills and a tool. A species is Dragonborn, Dwarf, Elf, Gnome, Goliath, Halfling, Human, Orc or Tiefling.",
+          "**3 · Ability scores.** The easy way is the Standard Array: 15, 14, 13, 12, 10, 8. Put the highest in your class’s main ability. Then your background raises one score by 2 and another by 1, or three scores by 1.",
+          "**4 · Alignment.** A shorthand for your character’s moral compass.",
+          "**5 · Details.** Hit points, Armor Class, attacks, and your character’s name, look and personality."
+        ],
+        "sources": [
+          {"id": "srd-2024/rule/create-your-character"}, {"id": "srd-2024/rule/create-your-character_choose-class"},
+          {"id": "srd-2024/rule/create-your-character_character-origin"}, {"id": "srd-2024/rule/create-your-character_ability-scores"},
+          {"browse": "class", "label": "All 12 classes"}, {"browse": "background", "label": "Backgrounds"}, {"browse": "species", "label": "Species"}
+        ]
+      },
+      "see": {
+        "text": "A first Fighter. Class: Fighter (Strength or Dexterity, low complexity). Background: Soldier, which can raise Strength, Dexterity or Constitution. Species: Human. Standard Array, as the rules suggest for a Fighter: Str 15, Dex 14, Con 13, Int 8, Wis 10, Cha 12. Soldier adds +2 Strength and +1 Constitution, so Strength 17 (+3) and Constitution 14 (+2).",
+        "chips": ["Fighter", "Soldier", "Human", "Str 17 (+3)", "Con 14 (+2)"]
+      },
+      "do": {"type": "array"},
+      "check": [
+        {"q": "Which classes have low complexity?", "opts": ["Fighter and Rogue", "Wizard and Sorcerer", "Bard and Druid"], "correct": 0,
+         "why": "The Class Overview table rates Fighter and Rogue low.", "src": "srd-2024/rule/create-your-character_choose-class"},
+        {"q": "Which six scores does the Standard Array give you?", "opts": ["18, 16, 14, 12, 10, 8", "15, 14, 13, 12, 10, 8", "Roll 4d6 six times"], "correct": 1,
+         "why": "15, 14, 13, 12, 10, 8. Rolling is a different method.", "src": "srd-2024/rule/create-your-character_ability-scores"},
+        {"q": "Your background lists Strength, Dexterity and Constitution. Which increase is allowed?", "opts": ["+2 Strength and +1 Constitution", "+3 Strength", "+2 Charisma"], "correct": 0,
+         "why": "+2 to one of the three and +1 to another (or +1 to all three), and never above 20.", "src": "srd-2024/rule/create-your-character_ability-scores"}
+      ]
+    },
+    {
+      "n": 4, "id": "solo", "title": "A solo adventure with an AI GM", "track": "Play", "minutes": 60,
+      "teaches": [],
+      "read": {
+        "lead": "Time to play. An AI Game Master runs a short adventure for your character: a conversation, some exploring and a small fight. When it asks for a roll, roll below the chat and tell it the total.",
+        "points": [
+          "**Say what you do, not what you roll.** “I check the altar for traps,” not “I roll Perception.” The GM picks the roll.",
+          "**Rules arrive when you need them.** The first time a rule comes up, the GM adds a one-line “Rule:” note.",
+          "**Be bold.** Nothing here can go badly wrong. Try the strange idea."
+        ],
+        "sources": [{"id": "srd-2024/rule/rhythm-of-play"}, {"id": "srd-2024/rule/social-interaction"}, {"id": "srd-2024/rule/exploration"}, {"id": "srd-2024/rule/combat"}]
+      },
+      "see": {
+        "text": "A good first message says who your character is in one line, then what they do: “I’m Tam, a halfling rogue who owes money to the wrong people. I walk into the Low Lantern looking for work.”"
+      },
+      "do": {"type": "dm"},
+      "check": [
+        {"q": "The GM says “Make a Dexterity (Stealth) check.” What do you add to the d20?", "opts": ["Your Dexterity modifier, plus your Proficiency Bonus if you’re proficient in Stealth", "Your Stealth score", "Nothing; Stealth is automatic"], "correct": 0,
+         "why": "Ability modifier, plus proficiency if the skill applies.", "src": "srd-2024/rule/d20-tests_ability-checks"},
+        {"q": "In a fight, who decides what your character does on your turn?", "opts": ["The GM", "You do", "The dice"], "correct": 1,
+         "why": "Players describe what their characters do; the GM resolves it.", "src": "srd-2024/rule/rhythm-of-play"}
+      ]
+    },
+    {
+      "n": 5, "id": "tests", "title": "Checks, saves and attacks", "track": "Rules", "minutes": 25,
+      "teaches": ["srd-2024/glossary/saving-throw", "srd-2024/glossary/attack-roll"],
+      "read": {
+        "lead": "Three kinds of D20 Test, three different moments: trying something, resisting something, hitting something.",
+        "points": [
+          "**Ability checks** use one of six abilities, often with a skill: Strength (Athletics), Wisdom (Perception), Charisma (Persuasion). The GM sets the DC.",
+          "**Saving throws** happen to you. You don’t choose to make one; an effect forces it and sets the DC. You can choose to fail one on purpose.",
+          "**Attack rolls** use Strength for melee and Dexterity for ranged weapons. You hit if you equal or beat the target’s AC.",
+          "**A natural 20 or 1** matters on attack rolls: a 20 always hits and is a Critical Hit, a 1 always misses."
+        ],
+        "table": {"title": "Which save resists what", "head": ["Ability", "Save to…"], "rows": [
+          ["Strength", "Physically resist direct force"], ["Dexterity", "Dodge out of harm’s way"], ["Constitution", "Endure a toxic hazard"],
+          ["Intelligence", "Recognize an illusion as fake"], ["Wisdom", "Resist a mental assault"], ["Charisma", "Assert your identity"]]},
+        "sources": [
+          {"id": "srd-2024/rule/d20-tests_ability-checks"}, {"id": "srd-2024/rule/d20-tests_saving-throw"},
+          {"id": "srd-2024/rule/d20-tests_attack-rolls"}, {"id": "srd-2024/glossary/critical-hit"},
+          {"zim": "rpg.stackexchange.com", "q": "natural 20 ability check automatic success"}
+        ]
+      },
+      "see": {
+        "text": "Tam throws a dagger at a goblin with AC 15. A dagger has the Finesse property, so Tam can use Dexterity 16 (+3), and Tam is proficient with daggers (+2).",
+        "chips": ["Attack roll", "+3 Dexterity", "+2 Proficiency", "AC 15"],
+        "roll": {"bonus": 5, "target": 15, "target_label": "AC", "mode": "normal", "dice": [13], "attack": true}
+      },
+      "do": {
+        "type": "sort", "prompt": "Check, save or attack?", "buckets": ["Check", "Save", "Attack"],
+        "items": [
+          {"t": "Climbing a slick wall", "a": "Check"},
+          {"t": "Diving clear of a collapsing ceiling", "a": "Save"},
+          {"t": "Swinging a mace at a skeleton", "a": "Attack"},
+          {"t": "Noticing a pickpocket in the crowd", "a": "Check"},
+          {"t": "Shrugging off a spider’s poison", "a": "Save"},
+          {"t": "Shooting an arrow at a wolf", "a": "Attack"}
+        ]
+      },
+      "check": [
+        {"q": "A trap sprays poison gas: “DC 13 Constitution saving throw.” Who chose to make that roll?", "opts": ["You did", "The trap’s effect forced it", "The GM, at random"], "correct": 1,
+         "why": "You don’t normally choose a save; the effect forces it and sets the DC.", "src": "srd-2024/rule/d20-tests_saving-throw"},
+        {"q": "You roll a natural 20 on an attack roll, but your total is still below the target’s AC. What happens?", "opts": ["You miss", "You hit, and it’s a Critical Hit", "You roll again"], "correct": 1,
+         "why": "A 20 on the d20 for an attack roll hits regardless of AC, and it’s a Critical Hit.", "src": "srd-2024/glossary/critical-hit"},
+        {"q": "Which ability do you usually add to a longbow attack?", "opts": ["Strength", "Dexterity", "Wisdom"], "correct": 1,
+         "why": "Ranged weapon attacks use Dexterity.", "src": "srd-2024/rule/d20-tests_attack-rolls"}
+      ]
+    },
+    {
+      "n": 6, "id": "advantage", "title": "Advantage & disadvantage", "track": "Rules", "minutes": 25,
+      "teaches": ["srd-2024/glossary/advantage", "srd-2024/glossary/heroic-inspiration"],
+      "read": {
+        "lead": "Some situations make a d20 roll easier or harder. You don’t add a bonus or a penalty. You roll a second d20.",
+        "cards": [
+          {"title": "Advantage", "text": "Roll two d20s. Keep the higher.", "tone": "adv"},
+          {"title": "Disadvantage", "text": "Roll two d20s. Keep the lower.", "tone": "dis"}
+        ],
+        "points": [
+          "**Any D20 Test.** Ability checks, saving throws and attack rolls.",
+          "**It never stacks.** Three reasons for advantage still means two dice.",
+          "**Both cancel out.** One of each, or three and one: roll a single d20.",
+          "**Rerolls touch one die.** With Heroic Inspiration you reroll one of the two dice, not both."
+        ],
+        "lists": [
+          {"title": "Common advantage", "items": ["You attack while unseen", "The target is restrained", "Target prone, you’re within 5 ft"]},
+          {"title": "Common disadvantage", "items": ["You can’t see the target", "You’re poisoned", "Ranged attack, enemy next to you", "Target prone, you’re farther than 5 ft"]}
+        ],
+        "sources": [
+          {"id": "srd-2024/rule/d20-tests_advantage-disadvantage"}, {"id": "srd-2024/glossary/advantage"}, {"id": "srd-2024/glossary/disadvantage"},
+          {"id": "srd-2024/condition/prone"}, {"zim": "rpg.stackexchange.com", "q": "advantage disadvantage cancel stack"},
+          {"zim": "dandwiki", "q": "advantage variant"}
+        ]
+      },
+      "see": {
+        "text": "Tam swings a shortsword at a prone ghoul in the next square.",
+        "chips": ["Target prone, within 5 ft", "Advantage", "Attack +5 · AC 12"],
+        "roll": {"bonus": 5, "target": 12, "target_label": "AC", "mode": "adv", "dice": [7, 16], "attack": true}
+      },
+      "do": {"type": "advantage"},
+      "check": [
+        {"q": "Two things give you advantage and one gives you disadvantage. What do you roll?", "opts": ["Two d20s, keep the higher", "One d20", "Three d20s, keep the highest"], "correct": 1,
+         "why": "They cancel, however many of each you have.", "src": "srd-2024/rule/d20-tests_advantage-disadvantage"},
+        {"q": "You shoot a shortbow at a goblin while another goblin, who can see you, stands right next to you.", "opts": ["Disadvantage", "Advantage", "Normal roll"], "correct": 0,
+         "why": "A ranged attack with an enemy within 5 feet who can see you is at disadvantage.", "src": "srd-2024/rule/combat_ranged-attacks"},
+        {"q": "An orc lies prone 30 feet away. You fire a longbow at it.", "opts": ["Advantage, it’s on the ground", "Disadvantage", "Normal roll"], "correct": 1,
+         "why": "Prone helps only attackers within 5 feet. From farther away it’s harder to hit.", "src": "srd-2024/condition/prone"}
+      ]
+    },
+    {"n": 7, "id": "turn", "title": "Your turn in a fight", "track": "Rules", "minutes": 30, "outline": true,
+     "teaches": ["srd-2024/glossary/initiative", "srd-2024/rule/combat_the-order-of-combat", "srd-2024/glossary/action", "srd-2024/glossary/bonus-action", "srd-2024/glossary/reaction"],
+     "read": {"lead": "Combat runs in rounds of about six seconds. Everyone rolls Initiative, a Dexterity check, and then takes turns from highest to lowest. On your turn you can move up to your Speed and take one action. A Bonus Action is extra, but only when a feature gives you one. A Reaction is an instant response to a trigger; once you use it, it comes back at the start of your next turn.",
+       "sources": [{"id": "srd-2024/rule/combat_the-order-of-combat"}, {"id": "srd-2024/glossary/action"}, {"id": "srd-2024/glossary/bonus-action"}, {"id": "srd-2024/glossary/reaction"}, {"id": "srd-2024/rule/combat_movement-and-position"}, {"zim": "rpg.stackexchange.com", "q": "bonus action reaction turn 2024"}]}},
+    {"n": 8, "id": "conditions", "title": "Conditions that matter", "track": "Rules", "minutes": 30, "outline": true,
+     "teaches": ["srd-2024/condition/prone", "srd-2024/condition/grappled", "srd-2024/condition/restrained", "srd-2024/condition/poisoned", "srd-2024/condition/frightened"],
+     "read": {"lead": "Fifteen conditions change what a creature can do. Five come up all the time: Prone, Grappled, Restrained, Poisoned and Frightened. Learn those five well and look the rest up when they appear.",
+       "sources": [{"id": "srd-2024/condition/prone"}, {"id": "srd-2024/condition/grappled"}, {"id": "srd-2024/condition/restrained"}, {"id": "srd-2024/condition/poisoned"}, {"id": "srd-2024/condition/frightened"}, {"id": "srd-2024/glossary/condition"}]}},
+    {"n": 9, "id": "describe", "title": "Describe a scene", "track": "Run", "minutes": 30, "outline": true, "teaches": [],
+     "read": {"lead": "Good descriptions are short: one thing to see, one thing to hear or smell, and one thing that invites a question. Then stop and ask what they do.",
+       "sources": [{"id": "srd-2024/rule/rhythm-of-play"}, {"zim": "rpg.stackexchange.com", "q": "describe scene gm-techniques description"}, {"zim": "worldbuilding.stackexchange.com", "q": "describing a fantasy town"}]}},
+    {"n": 10, "id": "conversation", "title": "Run a conversation", "track": "Run", "minutes": 40, "outline": true,
+     "teaches": ["srd-2024/glossary/influence", "srd-2024/glossary/attitude", "srd-2024/rule/social-interaction_roleplaying", "srd-2024/skill/insight"],
+     "read": {"lead": "Every NPC wants something and is Friendly, Indifferent or Hostile toward the characters. Play the want, let the players talk, and call for an Influence check only when the answer is genuinely in doubt.",
+       "sources": [{"id": "srd-2024/rule/social-interaction"}, {"id": "srd-2024/rule/social-interaction_roleplaying"}, {"id": "srd-2024/glossary/influence"}, {"id": "srd-2024/glossary/attitude"}, {"zim": "rpg.stackexchange.com", "q": "roleplaying npc voices gm-techniques"}]}},
+    {"n": 11, "id": "improvise", "title": "Improvise: yes, and", "track": "Run", "minutes": 30, "outline": true, "teaches": [],
+     "read": {"lead": "Players will do things you didn’t plan for. Say yes to what they try, add a consequence or a complication, and keep the story moving. A roll is a tool for uncertainty, not a way to say no.",
+       "sources": [{"zim": "rpg.stackexchange.com", "q": "improvise players unexpected gm-techniques"}]}},
+    {"n": 12, "id": "prep", "title": "Prep a location", "track": "Run", "minutes": 45, "outline": true,
+     "teaches": ["srd-2024/rule/exploration_vision-and-light", "srd-2024/glossary/hide"],
+     "read": {"lead": "Prep the place, not the plot: a few rooms, who is there and what they want, one secret, and one thing that changes if the players do nothing.",
+       "sources": [{"id": "srd-2024/rule/exploration"}, {"id": "srd-2024/rule/exploration_vision-and-light"}, {"id": "srd-2024/glossary/difficult-terrain"}, {"id": "srd-2024/glossary/hazard"}, {"books": "rule", "q": "adventure location"}]}},
+    {"n": 13, "id": "encounter", "title": "Build an encounter", "track": "Run", "minutes": 40, "outline": true,
+     "teaches": ["srd-2024/glossary/challenge-rating"],
+     "read": {"lead": "Challenge Rating tells you roughly how tough a monster is. Mix one strong monster with a few weak ones, give the fight a place worth fighting in, and decide what the monsters want besides killing.",
+       "sources": [{"id": "srd-2024/glossary/challenge-rating"}, {"id": "srd-2024/glossary/experience-points"}, {"books": "rule", "q": "combat encounter difficulty XP budget"}, {"zim": "rpg.stackexchange.com", "q": "encounter building 2024"}]}},
+    {"n": 14, "id": "fight", "title": "Run a fight", "track": "Run", "minutes": 60, "outline": true,
+     "teaches": ["srd-2024/glossary/opportunity-attacks", "srd-2024/glossary/cover", "srd-2024/glossary/damage-roll", "srd-2024/rule/damage-and-healing_dropping-to-zero-hit-points"],
+     "read": {"lead": "Keep turns quick: say whose turn it is and who’s next, describe hits with one vivid detail, and let monsters retreat or surrender. Know what happens at 0 Hit Points before anyone gets there.",
+       "sources": [{"id": "srd-2024/glossary/opportunity-attacks"}, {"id": "srd-2024/glossary/cover"}, {"id": "srd-2024/rule/damage-and-healing_dropping-to-zero-hit-points"}, {"id": "srd-2024/glossary/death-saving-throw"}]}},
+    {"n": 15, "id": "spotlight", "title": "Spotlight and pacing", "track": "Run", "minutes": 30, "outline": true, "teaches": [],
+     "read": {"lead": "Every player should get a moment each session. Watch who hasn’t spoken in a while and hand the scene to them. When energy drops, cut to the next interesting moment.",
+       "sources": [{"zim": "rpg.stackexchange.com", "q": "spotlight quiet player"}, {"zim": "rpg.stackexchange.com", "q": "pacing session slow"}]}},
+    {"n": 16, "id": "session-zero", "title": "Session zero and safety tools", "track": "Run", "minutes": 30, "outline": true, "teaches": [],
+     "read": {"lead": "Before the first adventure, sit down together: what kind of game, what tone, what’s off the table, and how anyone can pause a scene. It makes the rest of the campaign easier.",
+       "sources": [{"zim": "rpg.stackexchange.com", "q": "session zero"}, {"zim": "rpg.stackexchange.com", "q": "lines and veils safety tools x-card"}]}},
+    {"n": 17, "id": "one-shot", "title": "A one-shot with an AI party", "track": "Run", "minutes": 90, "outline": true, "teaches": [],
+     "read": {"lead": "You run a short adventure for four AI players with different habits: one argues rules, one wants to fight everything, one is shy, one talks to every NPC.",
+       "sources": [{"zim": "rpg.stackexchange.com", "q": "first time dm one-shot advice"}]}},
+    {"n": 18, "id": "players", "title": "Find your players", "track": "Play", "minutes": 0, "outline": true, "teaches": [],
+     "read": {"lead": "Ask friends who are curious, try a game store’s open table night, or join an online group. Running a one-shot for three or four people is the best next step.",
+       "sources": [{"zim": "rpg.stackexchange.com", "q": "find a group to play"}]}}
+  ]
+}

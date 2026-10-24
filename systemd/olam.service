@@ -1,0 +1,17 @@
+# A user service: copy to ~/.config/systemd/user/, change the paths if Olam isn't in ~/olam, then
+#   systemctl --user daemon-reload && systemctl --user enable --now olam
+[Unit]
+Description=Olam: D&D lessons, library and worldbuilding (web app)
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/olam
+ExecStart=%h/olam/.venv/bin/python -m olam.server
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+# Where the Claude CLI usually is, for the AI features
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target

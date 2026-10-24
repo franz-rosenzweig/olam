@@ -1,0 +1,18 @@
+# The public demo, next to your own copy: open-licensed rules only, no sign-in, no AI. Put a reverse proxy in front of it.
+[Unit]
+Description=Olam public demo (open-licensed rules only, no sign-in, no AI)
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/olam
+ExecStart=%h/olam/.venv/bin/python -m olam.server
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+Environment=OLAM_DEMO=1
+Environment=OLAM_DB=%h/olam/data/demo.db
+Environment=OLAM_HOSTS=127.0.0.1
+Environment=OLAM_PORT=8463
+
+[Install]
+WantedBy=default.target
