@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Server: two racked boxes, in brass on the ground -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ground" />
+    <foreground>
+        <vector android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+            <path android:strokeColor="@color/brass" android:strokeWidth="3.5" android:fillColor="#00000000"
+                android:pathData="M38,35h32a4,4 0,0 1,4 4v8a4,4 0,0 1,-4 4h-32a4,4 0,0 1,-4 -4v-8a4,4 0,0 1,4 -4zM38,57h32a4,4 0,0 1,4 4v8a4,4 0,0 1,-4 4h-32a4,4 0,0 1,-4 -4v-8a4,4 0,0 1,4 -4z" />
+            <path android:fillColor="@color/brass"
+                android:pathData="M43,40.5a2.5,2.5 0,1 1,0 5a2.5,2.5 0,1 1,0 -5zM43,62.5a2.5,2.5 0,1 1,0 5a2.5,2.5 0,1 1,0 -5z" />
+        </vector>
+    </foreground>
+</adaptive-icon>

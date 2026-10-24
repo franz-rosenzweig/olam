@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="demo">Public demo</string>
+    <string name="yourServer">Your server</string>
+    <string name="addressHint">https://olam.example.com</string>
+    <string name="open">Open</string>
+    <string name="notAnAddress">Not an address</string>
+    <string name="noAnswer">No answer</string>
+    <string name="retry">Try again</string>
+    <string name="server">Server</string>
+    <string name="noObsidian">Obsidian isn\'t installed</string>
+    <string name="noApp">No app for this link</string>
+</resources>

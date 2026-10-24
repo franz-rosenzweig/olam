@@ -1,0 +1,65 @@
+// Olam for Android: a WebView on an Olam server, the public demo or your own. No page is
+// bundled: the server is the app, and its address is chosen on first launch (and again from
+// Server, on the icon's long-press).
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'xyz.tiresia.olam'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'xyz.tiresia.olam'
+        // 30: the window's insets by type, and its insets controller
+        minSdk 30
+        targetSdk 36
+        // 10000·X + 100·Y + Z, so every release outranks the last
+        versionCode 100
+        versionName '0.1.0'
+        resValue 'string', 'app_name', 'Olam'
+    }
+
+    // The signing key's properties: android/keystore.properties (never in git), or the file
+    // -PsigningProperties names. storeFile is found beside the properties file. Without one
+    // the release build is unsigned.
+    def secrets = project.hasProperty('signingProperties')
+            ? file(project.property('signingProperties')) : rootProject.file('keystore.properties')
+    signingConfigs {
+        release {
+            if (secrets.exists()) {
+                def props = new Properties()
+                secrets.withInputStream { props.load(it) }
+                def store = new File(props.getProperty('storeFile', 'android.keystore'))
+                storeFile store.isAbsolute() ? store : new File(secrets.parentFile, store.path)
+                storePassword props.getProperty('storePassword')
+                keyAlias props.getProperty('keyAlias', 'olam')
+                keyPassword props.getProperty('keyPassword', props.getProperty('storePassword'))
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (secrets.exists()) signingConfig signingConfigs.release
+        }
+        debug {
+            // beside the real app, with its WebView open to DevTools
+            applicationIdSuffix '.debug'
+            resValue 'string', 'app_name', 'Olam dev'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+}
+
+tasks.withType(JavaCompile).configureEach { options.compilerArgs << '-Xlint:deprecation' }

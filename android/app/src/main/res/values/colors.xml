@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Olam's own colours, from web/app.css: the dark ground and the brass. -->
+<resources>
+    <color name="ground">#111316</color>
+    <color name="panel">#191C21</color>
+    <color name="line">#2B3038</color>
+    <color name="line2">#3A4049</color>
+    <color name="text">#ECE6D8</color>
+    <color name="dim">#A9A293</color>
+    <color name="faint">#8F897C</color>
+    <color name="brass">#D9A54A</color>
+    <color name="brassHi">#ECC277</color>
+    <color name="brassLine">#8A6A2F</color>
+    <color name="onBrass">#111316</color>
+    <color name="onBrass2">#4A3A1C</color>
+    <color name="red">#F0A48F</color>
+</resources>

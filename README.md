@@ -88,6 +88,10 @@ To keep it running, `systemd/olam.service` is a user service for it. Settings go
 
 If you'd rather use your Claude subscription than an API key, install the Claude CLI and sign in to it as the same user that runs Olam. Olam finds it on its own.
 
+### On your phone
+
+There's a small Android app in `android/`: Olam full screen, with Back, links and your sign-in working the way you'd expect. The first time it opens, it asks for your server's address, or opens the demo. Get `Olam-<version>.apk` from [Releases](https://github.com/franz-rosenzweig/olam/releases), or add this repo to Obtainium so it updates itself. [android/README.md](android/README.md) has the details and how to build it yourself.
+
 ## The vault
 
 Point `OLAM_VAULT` at an Obsidian vault (a new one is best) and run `olam vault-setup`. It makes the World folders, a blank parchment map and templates, and never overwrites anything. Olam writes its notes in the formats of six community plugins, so Obsidian shows the same world: **Fantasy Statblocks**, **Initiative Tracker**, **Dice Roller**, **Leaflet**, **Calendarium** and **Relations**.

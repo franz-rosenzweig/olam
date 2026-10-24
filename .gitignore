@@ -3,3 +3,12 @@ __pycache__/
 *.pyc
 data
 *.part
+# Android: Gradle's output and caches, and the signing key and its passwords
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/keystore.properties
+android/*.keystore
+android/*.jks
+android/*.apk

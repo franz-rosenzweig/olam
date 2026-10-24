@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The page, and over it, when they're needed: no answer from the server, and the choice of server. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ground">
+
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/offline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ground"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/mark" />
+
+        <TextView
+            android:id="@+id/offlineServer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/alegreya_sans"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/alegreya_sans"
+            android:gravity="center"
+            android:text="@string/noAnswer"
+            android:textColor="@color/dim"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/retry"
+            style="@style/Olam.Button.Primary"
+            android:layout_marginTop="28dp"
+            android:text="@string/retry" />
+
+        <Button
+            android:id="@+id/change"
+            style="@style/Olam.Button"
+            android:text="@string/server" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/chooser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ground"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <!-- focusable itself, so the address field doesn't take the focus (and the keyboard) on its own -->
+        <LinearLayout
+            android:id="@+id/column"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingTop="32dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="32dp">
+
+            <ImageView
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/mark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/fell"
+                android:text="@string/app_name"
+                android:textColor="@color/text"
+                android:textSize="44sp" />
+
+            <LinearLayout
+                android:id="@+id/demo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/btn_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:minHeight="64dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingLeft="18dp"
+                android:paddingTop="10dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alegreya_sans_bold"
+                    android:text="@string/demo"
+                    android:textColor="@color/onBrass"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/demoServer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alegreya_sans"
+                    android:textColor="@color/onBrass2"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Olam.Eyebrow"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="8dp"
+                android:labelFor="@id/address"
+                android:text="@string/yourServer" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/field"
+                android:fontFamily="@font/alegreya_sans"
+                android:hint="@string/addressHint"
+                android:imeOptions="actionGo"
+                android:importantForAutofill="no"
+                android:inputType="textUri|textNoSuggestions"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:singleLine="true"
+                android:textColor="@color/text"
+                android:textColorHint="@color/faint"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/problem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/alegreya_sans"
+                android:text="@string/notAnAddress"
+                android:textColor="@color/red"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/open"
+                style="@style/Olam.Button"
+                android:text="@string/open" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- the compass alone, cropped to the ring, for the app's own screens -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp" android:height="44dp" android:viewportWidth="44" android:viewportHeight="44">
+    <group android:translateX="-10" android:translateY="-10">
+        <path android:strokeColor="@color/brass" android:strokeWidth="3" android:fillColor="#00000000"
+            android:pathData="M32,12a20,20 0,1 1,0 40a20,20 0,1 1,0 -40z" />
+        <path android:fillColor="@color/brass" android:fillType="evenOdd"
+            android:pathData="M41,23L37,37L23,41L27,27Z M32,29a3,3 0,1 0,0 6a3,3 0,1 0,0 -6z" />
+    </group>
+</vector>
