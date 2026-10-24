@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="web/icon.svg" width="110" alt="">
+  <img src="web/icon-512.png" width="110" alt="">
 </p>
 <h1 align="center">Olam</h1>
 <p align="center"><b>A place to learn D&amp;D and build a world to run it in.</b><br>Short lessons on the 2024 rules, a wiki built from every free source I could find, and your Obsidian vault as the world.</p>
@@ -12,6 +12,7 @@
 </p>
 <p align="center">
   <a href="https://stuffs.tiresia.xyz/olam/"><b>Try the demo</b></a> ·
+  <a href="docs/README.md"><b>Docs</b></a> ·
   <a href="#install">Install</a> ·
   <a href="#whats-in-it">What's in it</a> ·
   <a href="#the-vault">The vault</a> ·
