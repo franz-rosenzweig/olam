@@ -26,7 +26,7 @@ The rail on the left (across the top on a phone) has eight screens. Ask only sho
 | **Table** | Run a fight: initiative, HP, conditions, tokens on a grid, and a players' screen for the TV. |
 | **Ask** | Ask a rules question and get an answer that cites its sources. |
 | **Review** | The lesson questions you got wrong, back again until you get them right. |
-| **Settings** | Your password, signing out, and what this copy of Olam is connected to. |
+| **Settings** | Your password, signing out, light or dark, and what this copy of Olam is connected to. |
 
 Click any monster, spell, condition or rule and you get its **wiki page**, which pulls together everything Olam knows about it: the official text, other versions, expert answers, homebrew, worldbuilding Q&A, myths and your own notes. Rules terms inside any text are links too, and hovering over one shows a short preview.
 

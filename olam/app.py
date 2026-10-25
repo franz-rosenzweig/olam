@@ -3,6 +3,7 @@
 Two ways it runs: your own copy, behind a password, and the public demo (OLAM_DEMO=1), which has no login, no AI,
 no books and no vault, and keeps each visitor's progress in their browser.
 """
+import json
 import re
 import time
 from collections import defaultdict, deque
@@ -12,10 +13,10 @@ from fastapi import Body, FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import __version__, ai, auth, config, db, learn, library, vault, world, zims
+from . import __version__, ai, auth, config, db, learn, library, pictures, vault, world, zims
 
 app = FastAPI(title="Olam", docs_url=None, redoc_url=None, openapi_url=None)
-OPEN = {"/api/login", "/api/me", "/api/credits"}
+OPEN = {"/api/login", "/api/me", "/api/credits", "/api/credits/pictures"}
 # What the demo doesn't do: anything that runs the model, writes on the server, or reads the vault.
 DEMO_OFF = re.compile(r"^/api/(ask|summary/|dm|note|vault|world|table|login|logout|account|settings|review(/done)?$|learn/[^/]+/(step|answer|complete)$)")
 # What needs the model: off when there's no API key and no Claude CLI.
@@ -267,7 +268,34 @@ def credits():
     docs = [dict(d, note=DOC_NOTES.get(d["key"], "")) for d in library.docs().values() if not d.get("private") and d["key"] in used]
     return {"docs": sorted(docs, key=lambda d: (d["shelf"] != "rule", d["name"] or "")),
             "archives": [{"label": z["label"], "license": z["license"], "book": z["book"]} for z in zims.all().values()],
-            "demo": config.DEMO}
+            "pictures": picture_summary(), "icons": icon_artists(), "demo": config.DEMO}
+
+
+def icon_artists():
+    try:
+        return sorted(set(json.loads((config.WEB / "icons.json").read_text()).values()))
+    except (FileNotFoundError, ValueError):
+        return []
+
+
+def picture_summary():
+    idx = pictures.index()
+    lic = {}
+    for p in {p["file"]: p for p in idx.values()}.values():
+        lic[p["license"]] = lic.get(p["license"], 0) + 1
+    return {"entries": len(idx), "files": len({p["file"] for p in idx.values()}), "licenses": lic}
+
+
+@app.get("/api/credits/pictures")
+def credits_pictures():
+    """Every picture once, with who made it, its license and where it came from."""
+    seen = {}
+    for k, p in pictures.index().items():
+        s = seen.setdefault(p["file"], {"src": "pictures/" + p["file"], "title": p["title"], "author": p["author"],
+                                        "license": p["license"], "license_url": p["license_url"], "source": p["source"],
+                                        "article": p["article"], "for": []})
+        s["for"].append(k.split(":", 1)[1])
+    return sorted(seen.values(), key=lambda s: s["title"].lower())
 
 
 @app.get("/api/review")
@@ -455,6 +483,7 @@ def vault_file(rel: str):
 
 
 app.mount("/static", StaticFiles(directory=config.WEB), name="static")
+app.mount("/pictures", StaticFiles(directory=pictures.DIR, check_dir=False), name="pictures")
 
 
 @app.get("/")

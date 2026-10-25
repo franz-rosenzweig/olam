@@ -4,12 +4,12 @@
 
 The Codex is where you look things up, and a wiki page is what you get when you do. The idea is that you never have to wonder where to look: rules, monsters, spells, items, classes, years of expert answers, homebrew, worldbuilding advice and your own books are all searched at once, and every result says which shelf it came from.
 
-![The Owlbear's wiki page: its statblock, a badge for each shelf, and the sources on the page](images/wiki.png)
+![The Medusa's wiki page: an ancient terracotta Medusa from Commons, its statblock with dice buttons, a badge for each shelf, and the sources on the page](images/wiki.png)
 *A wiki page: the rules first, then every other shelf.*
 
 ## Searching
 
-Type anything into the search box, like "owlbear", "grappling", "fireball" or "the Menagerie", and press Enter. Results come in two columns: the library on the left (rules, monsters, spells and so on, each with its badge), and the archives on the right (the best matching threads from RPG Stack Exchange, D&D Wiki and the others, with their votes).
+Type anything into the search box, like "owlbear", "grappling", "fireball" or "the Menagerie", and press Enter. Results come in two columns: the library on the left (rules, monsters, spells and so on, each with its picture or icon and its badge), and the archives on the right (the best matching threads from RPG Stack Exchange, D&D Wiki and the others, with their votes).
 
 You can narrow it down:
 
@@ -17,11 +17,17 @@ You can narrow it down:
 - **Type.** All, Rules, Monsters, Spells, Magic items, Equipment, Classes, Origins & feats, and **Your library** for your own books.
 - **3rd-party books.** Off by default. Turn it on to include Kobold Press, EN Publishing (A5e), Black Flag and the other open-licensed books from Open5e.
 
-With nothing in the search box, the Codex shows tiles to browse the 2024 rules by kind: Monsters, Spells, Magic items, Classes, Species, Backgrounds, Feats, Conditions and the Rules Glossary. There's also an Owlbear tile, which is a good wiki page to start with if you want to see what one looks like.
+With nothing in the search box, the Codex shows tiles to browse the 2024 rules by kind: Monsters, Spells, Magic items, Equipment, Classes, Species, Backgrounds, Feats, Conditions and the Rules Glossary. Each one opens a gallery, A to Z, with a picture or an icon for everything in it, so you can just wander through the monsters the way you'd flip through a Monster Manual. There's also an Owlbear tile, which is a good wiki page to start with if you want to see what one looks like.
+
+## Pictures and icons
+
+Wherever Wikipedia has a free picture of something, Olam shows it: an old engraving of a basilisk, a Greek vase with the hydra on it, a museum photo of a longsword, a photo of a real brown bear. The rest get an icon, chosen by what they are: the kind of monster (a dragon's head, a tentacle for an aberration), the school of a spell, the kind of item, the class or the condition. The pictures come in with `olam fetch pictures` (see [Install](install.md)), and the icons are from [game-icons.net](https://game-icons.net).
+
+Every picture says who made it and its license, and links to its page on Wikimedia Commons, so you can always check where it came from. They're matched by name, and every one was looked at before it went in. If one ever looks wrong, tell me and I'll take it out.
 
 ## A wiki page
 
-Every entry has a hub page that pulls together everything Olam knows about it, one section per shelf, in this order:
+Every entry has a hub page that pulls together everything Olam knows about it. Its picture is at the top, next to its name, with who made it and its license under it, and clicking it opens the Wikipedia article it came from. Then there's one section per shelf, in this order:
 
 - **Summary** — a short plain-English summary from Claude, if you press **Summarize** (only with the AI features on).
 - **Rules** — the official text, with a statblock for a monster. **Rules it uses** lists the rules terms the entry leans on, so you can click through to anything you don't know yet.
@@ -35,7 +41,7 @@ Every entry has a hub page that pulls together everything Olam knows about it, o
 
 The **Show** buttons at the top turn each shelf on and off, so if you only want the rules right now, you can hide everything else.
 
-On a monster's page, the statblock has buttons for each attack. Press the to-hit button and Olam rolls a d20 and adds the bonus. Press the damage button and it rolls the damage. The result pops up in the bottom corner, with the dice shown. There are also two buttons at the top for your world: **Add to vault**, which makes a statblock note for it in your vault, and **Add to encounter**, which adds it to your next fight (see [Your vault](the-vault.md)). With the AI features on, **Ask about this** opens Ask with a question about it ready to go.
+On a monster's page, the statblock has buttons for each attack, each with the die it rolls. Press the to-hit button and Olam rolls a d20 and adds the bonus. Press the damage button and it rolls the damage. The result pops up in the bottom corner, with the dice shown. There are also two buttons at the top for your world: **Add to vault**, which makes a statblock note for it in your vault, and **Add to encounter**, which adds it to your next fight (see [Your vault](the-vault.md)). With the AI features on, **Ask about this** opens Ask with a question about it ready to go.
 
 ## Rules terms are links
 

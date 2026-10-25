@@ -2,6 +2,7 @@
 
     rules     Open5e's data (a sparse git checkout of data/v2) and the SRD 5.2.1 PDF: about 45 MB
     zims      the Kiwix archives in config.ZIMS, the newest of each: about 1.5 GB
+    pictures  pictures from Wikipedia and Wikimedia Commons for the library, after `olam ingest`: about 40 MB
 
 Run `olam ingest` afterwards to build the library from them.
 """
@@ -97,6 +98,10 @@ def main(args):
         open5e()
         srd()
         print("Done. Now run: olam ingest")
+    elif what == "pictures":
+        from . import pictures
+        pictures.fetch()
+        print("Done. Olam shows them straight away.")
     elif what == "zims":
         zims(args[1:])
         print("Done. Restart Olam (and kiwix-serve, if you run it) to pick them up.")

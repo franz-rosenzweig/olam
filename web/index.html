@@ -4,6 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111316">
+<script>
+// Dark, light, or the system's choice (Auto): set before the page draws, changed in Settings.
+(() => {
+  let pick; try { pick = localStorage.getItem('olam.theme'); } catch (e) { /* private window */ }
+  const sys = matchMedia('(prefers-color-scheme: light)');
+  const set = () => {
+    const t = pick === 'light' || pick === 'dark' ? pick : (sys.matches ? 'light' : 'dark');
+    document.documentElement.dataset.theme = t;
+    document.querySelector('meta[name=theme-color]').content = t === 'light' ? '#F4EFE4' : '#111316';
+  };
+  set();
+  sys.addEventListener('change', set);
+  window.olamTheme = v => { if (v) { pick = v; try { localStorage.setItem('olam.theme', v); } catch (e) { /* private window */ } set(); } return pick || 'auto'; };
+})();
+</script>
 <title>Olam</title>
 <link rel="icon" href="static/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="static/manifest.webmanifest">

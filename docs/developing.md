@@ -21,6 +21,9 @@ Set it up the same way as [Install](install.md) without Docker, then run `serve`
 | `olam/ingest/` | Builds the library: `open5e.py` (the SRDs and the third-party books), `srd_pdf.py` (the 2024 Rules Glossary, from the PDF) and `calibre.py` (your books) |
 | `olam/library.py` | Search, browsing, and the hub that puts a wiki page together from every shelf |
 | `olam/zims.py` | The Kiwix archives: title and full-text search, and a page's question and best answer |
+| `olam/pictures.py` | `fetch pictures`: matching entries to Wikipedia articles, the pictures that were turned down, and the index with each credit |
+| `olam/icons.py` | Which icon each kind of thing gets |
+| `tools/icons.py` | Builds `web/icons.svg` from a checkout of game-icons.net, with only the icons `olam/icons.py` names |
 | `olam/learn.py` | The Road, progress, Review and the Atlas |
 | `olam/ai.py` | Everything Olam asks Claude, through the API or the CLI, always from numbered sources |
 | `olam/vault.py` | Notes in the plugins' formats: statblocks, encounters, dice lines, templates and the map |

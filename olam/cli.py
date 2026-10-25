@@ -1,6 +1,6 @@
 """olam fetch | olam ingest | olam passwd | olam serve
 
-    python -m olam.cli fetch [rules|zims]            download the open sources (rules by default; zims is ~1.5 GB)
+    python -m olam.cli fetch [rules|zims|pictures]   download the open sources (rules by default; zims is ~1.5 GB)
     python -m olam.cli ingest [open5e|srd|calibre]   rebuild the library (all three by default)
     python -m olam.cli passwd                         set the password (asks twice)
     python -m olam.cli vault-setup                    the vault's World folders, plugin templates and map (never overwrites)

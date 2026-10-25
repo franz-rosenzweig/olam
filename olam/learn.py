@@ -2,7 +2,7 @@
 import json
 import re
 
-from . import config, db, library, zims
+from . import config, db, icons, library, zims
 
 _road = None
 
@@ -95,7 +95,7 @@ def state(P=None, review_count=None):
         if status == "current":
             current = s["n"]
         prev_done = done
-        stops.append({"n": s["n"], "id": s["id"], "title": s["title"], "track": s["track"], "minutes": s["minutes"],
+        stops.append({"n": s["n"], "id": s["id"], "title": s["title"], "track": s["track"], "minutes": s["minutes"], "icon": icons.STOP.get(s["id"], "open-book"),
                       "outline": bool(s.get("outline")), "status": status, "steps": p.get("steps", [])})
     names = {r["id"]: r["name"] for r in db.connect().execute(
         "SELECT id, name FROM entries WHERE id IN (%s)" % ",".join("?" * sum(len(g["rules"]) for g in R["regions"])),
@@ -136,6 +136,7 @@ def lesson(stop_id):
         e = library.get(q.get("src", "")) if q.get("src") else None
         q["src_label"] = f"Rule · SRD 5.2 · {e['name']}" if e else ""
     s["progress"] = progress().get(stop_id, {"status": "", "steps": [], "answers": {}})
+    s["icon"] = icons.STOP.get(stop_id, "open-book")
     return s
 
 
@@ -145,7 +146,7 @@ def resolve(src):
         e = library.get(src["id"])
         if not e:
             return None
-        return {"type": "entry", "id": e["id"], "title": e["name"], "shelf": e["shelf"],
+        return {"type": "entry", "id": e["id"], "title": e["name"], "shelf": e["shelf"], "pic": e.get("pic"), "icon": e.get("icon"),
                 "sub": f"SRD 5.2 · {e['kind_label']}" + (f" · {e['grp']}" if e.get("grp") and e["grp"] != e["kind_label"] else "")}
     if "zim" in src:
         z = zims.all().get(src["zim"])

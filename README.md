@@ -32,7 +32,7 @@ Basically, instead of ten tabs and a notebook, I have ONE place to learn the gam
 ## What's in it
 
 - **Learn.** The Road is 18 stops over six weeks, from "What a session looks like" to "Find your players." Each lesson has four steps (Read, See, Do, Check), the questions you miss come back in Review, and the Atlas of Rules clears its fog as you master what each stop teaches.
-- **Codex.** Search everything at once: rules, monsters, spells, items, classes, the archives, and your own books if you add a Calibre library.
+- **Codex.** Search everything at once: rules, monsters, spells, items, classes, the archives, and your own books if you add a Calibre library. Or wander through a gallery of every monster, spell and item, with old paintings, engravings and museum photos from Wikimedia Commons, and an icon for the rest.
 - **Wiki pages.** Every entry has a hub page with the official text, other versions, the rules it uses, expert answers, homebrew, worldbuilding Q&A, myth roots, passages from your books and your own notes, each with a badge for its shelf.
 - **Ask.** A rules question is answered from numbered sources, 2024 rules first, and the answer cites them.
 - **AI Game Master.** A short solo adventure where you roll in the app and each new rule comes with a one-line note.
@@ -44,10 +44,12 @@ The AI features (Ask, summaries, the Game Master and interviews with your charac
 
 | | |
 |---|---|
-| <img src="docs/images/learn.png" alt="Learn: the Road of 18 stops, the first lesson, and the Atlas of Rules"> | <img src="docs/images/wiki.png" alt="The Owlbear's wiki page: its statblock, a badge for each shelf, and the sources on the page"> |
+| <img src="docs/images/learn.png" alt="Learn: the Road of 18 stops, the first lesson, and the Atlas of Rules"> | <img src="docs/images/wiki.png" alt="The Medusa's wiki page: an ancient terracotta Medusa from Commons, its statblock with dice buttons, a badge for each shelf, and the sources on the page"> |
 | **Learn.** The Road, a lesson, and the Atlas of Rules. | **A wiki page.** The rules first, then every other shelf. |
 | <img src="docs/images/person.png" alt="A person from the vault: their ties, what they want and fear, what the party knows, and secrets with Reveal buttons"> | <img src="docs/images/table.png" alt="The Table: tokens on a grid and the initiative list with HP and conditions"> |
 | **People.** Ties, secrets to reveal, and an in-character interview. | **Table.** Initiative, HP, conditions and a players' screen. |
+| <img src="docs/images/gallery.png" alt="The Codex gallery of monsters, each with a painting, engraving or icon"> | <img src="docs/images/codex.png" alt="A Codex search for dragon: each result with its picture or icon and its badge, and the archives beside them"> |
+| **The gallery.** Every monster, spell and item, A to Z. | **Codex.** One search across the rules, the books and the archives. |
 
 ## Install
 
@@ -58,6 +60,7 @@ git clone https://github.com/franz-rosenzweig/olam.git && cd olam
 docker compose build
 docker compose run --rm olam fetch          # the SRD 5.2.1 and Open5e's data, about 45 MB
 docker compose run --rm olam ingest         # build the library, about a minute
+docker compose run --rm olam fetch pictures # pictures from Wikipedia and Commons, about 25 MB
 docker compose run --rm olam passwd         # your password
 docker compose up -d
 ```
@@ -81,6 +84,7 @@ git clone https://github.com/franz-rosenzweig/olam.git ~/olam && cd ~/olam
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m olam.cli fetch
 .venv/bin/python -m olam.cli ingest
+.venv/bin/python -m olam.cli fetch pictures
 .venv/bin/python -m olam.cli passwd
 .venv/bin/python -m olam.cli serve          # http://127.0.0.1:8462
 ```
@@ -122,6 +126,8 @@ Nothing in this repository is rules text. `olam fetch` downloads each source fro
 - **SRD 5.2.1** by Wizards of the Coast LLC, from https://www.dndbeyond.com/srd, licensed CC BY 4.0.
 - **Open5e's data** (https://github.com/open5e/open5e-api): the SRDs and third-party books under their own open licenses.
 - **Kiwix archives** (https://download.kiwix.org/zim/): RPG Stack Exchange, Mythology and Worldbuilding Q&A (CC BY-SA), and D&D Wiki (GFDL). Olam shows each page's author and links to the original.
+- **Pictures** from Wikimedia Commons, found through Wikipedia: paintings, engravings and museum photos, each shown with its author and license.
+- **Icons** from [game-icons.net](https://game-icons.net) by Lorc, Delapouite and others, CC BY 3.0.
 - **Your Calibre books** never leave your machine. Olam indexes them for search and shows short passages.
 
 The fonts are IM FELL English and Alegreya Sans, under the SIL Open Font License (`web/fonts/OFL.txt`).

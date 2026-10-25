@@ -98,7 +98,7 @@
       } else {
         const list = M.places.filter(p => !view.pv || (p.visited && !p.dm_only));
         side.innerHTML = `<section class="card"><h2>Places</h2>${list.length ? list.map(p => `<button type="button" class="result" data-pick="${esc(p.rel)}" style="text-align:left">
-          <span class="t">${esc(p.name)}</span><span class="s">${esc(p.type || 'Place')}${p.location ? '' : ' · not on the map'}${p.dm_only ? ' · DM only' : ''}</span></button>`).join('')
+          <span class="t">${O.gi(p.icon, 20)}${esc(p.name)}</span><span class="s">${esc(p.type || 'Place')}${p.location ? '' : ' · not on the map'}${p.dm_only ? ' · DM only' : ''}</span></button>`).join('')
           : `<div class="empty" style="padding:16px">${view.pv ? 'Nothing visited yet' : 'No places yet'}</div>`}</section>`;
         side.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { sel = b.dataset.pick; draw(); });
       }
@@ -253,6 +253,8 @@
   // ======================================================================== Table
   const COLORS = ['#7FB3D5', '#E39B5B', '#B9D58A', '#C7A4E0', '#E8D27A', '#8FD3C9'];
   const CONDITIONS = ['Blinded', 'Charmed', 'Deafened', 'Exhaustion', 'Frightened', 'Grappled', 'Incapacitated', 'Invisible', 'Paralyzed', 'Petrified', 'Poisoned', 'Prone', 'Restrained', 'Stunned', 'Unconscious'];
+  const COND_ICON = { Blinded: 'blindfold', Charmed: 'charm', Deafened: 'hearing-disabled', Exhaustion: 'tired-eye', Frightened: 'terror', Grappled: 'grab', Incapacitated: 'knockout',
+    Invisible: 'invisible', Paralyzed: 'frozen-body', Petrified: 'stone-bust', Poisoned: 'poison-bottle', Prone: 'falling', Restrained: 'manacles', Stunned: 'knocked-out-stars', Unconscious: 'night-sleep' };
   const health = c => c.hp <= 0 ? 'Down' : c.hp <= c.max / 2 ? 'Bloodied' : 'Unhurt';
   const initial = c => c.name.replace(/[^A-Za-z]/g, '')[0] || '?';
   const tag = c => (c.name.match(/ ([A-Z])$/) || [])[1] || '';
@@ -263,7 +265,7 @@
     return `<div class="battle" style="aspect-ratio:${g.cols} / ${g.rows};--cols:${g.cols};--rows:${g.rows}">
       ${g.image ? `<img src="${fileUrl(g.image)}" alt="" draggable="false">` : ''}<div class="gridlines"></div>
       ${S.combatants.map((c, i) => `<div class="token ${c.kind} ${i === S.turn && S.started ? 'now' : ''} ${c.hp <= 0 ? 'down' : ''}" data-i="${i}"
-        style="left:${(c.pos[0] + 0.5) / g.cols * 100}%;top:${(c.pos[1] + 0.5) / g.rows * 100}%;width:${100 / g.cols}%;${c.kind === 'pc' ? `background:${c.color}` : ''}" title="${esc(c.name)}">${esc(label(c))}</div>`).join('')}</div>`;
+        style="left:${(c.pos[0] + 0.5) / g.cols * 100}%;top:${(c.pos[1] + 0.5) / g.rows * 100}%;width:${100 / g.cols}%;${c.kind === 'pc' ? `background:${c.color}` : c.pic ? `background-image:url('${esc(c.pic)}')` : ''}" title="${esc(c.name)}">${c.pic ? `<span>${esc(label(c))}</span>` : esc(label(c))}</div>`).join('')}</div>`;
   }
 
   O.routes.table = async (main, r) => {
@@ -282,7 +284,7 @@
       enc.creatures.forEach(c => {
         for (let j = 0; j < c.n; j++) {
           out.push({ id: 'foe' + (k++), name: c.n > 1 ? `${c.name} ${String.fromCharCode(65 + j)}` : c.name, kind: 'foe', hp: c.hp, max: c.hp, ac: c.ac, init: c.init,
-            roll: null, conds: [], pos: [17 + (k % 4), 3 + Math.floor(k / 4) * 2 + (k % 2)], eid: c.id, note: c.note });
+            roll: null, conds: [], pos: [17 + (k % 4), 3 + Math.floor(k / 4) * 2 + (k % 2)], eid: c.id, note: c.note, pic: c.pic || '', icon: c.icon || '' });
         }
       });
       S = Object.assign({ grid: S.grid || { cols: 24, rows: 15, image: '' } }, { encounter: enc.rel, name: enc.name, combatants: out, round: 1, turn: 0, started: false });
@@ -309,10 +311,10 @@
           ${showSB >= 0 ? '<div id="sbpanel"></div>' : ''}</section>
           <aside class="initlist" style="flex:1 1 300px;min-width:0">${C.map((c, i) => `<div class="initrow ${i === S.turn && S.started ? 'now' : ''} ${c.hp <= 0 ? 'down' : ''}">
             <input class="initnum" type="number" value="${c.roll ?? ''}" data-roll="${i}" aria-label="Initiative for ${esc(c.name)}" placeholder="${c.init >= 0 ? '+' : ''}${c.init}">
-            <span class="av ${c.kind}" style="${c.kind === 'pc' ? 'background:' + c.color : ''}">${esc(label(c))}</span>
+            <span class="av ${c.kind}" style="${c.kind === 'pc' ? 'background:' + c.color : c.pic ? `background-image:url('${esc(c.pic)}')` : ''}">${c.kind !== 'pc' && c.pic ? `<span>${esc(label(c))}</span>` : esc(label(c))}</span>
             <div class="who"><span class="nm">${esc(c.name)} <span class="dim">AC ${c.ac}</span></span>
               <span class="hpbar"><i style="width:${Math.max(0, Math.min(100, c.hp / c.max * 100))}%;background:${c.hp > c.max / 2 ? '#9BC48A' : c.hp > c.max / 4 ? '#E0A84A' : '#E07A5F'}"></i></span>
-              <span class="chips">${c.conds.map((k, j) => `<button type="button" class="chip" data-uncond="${i}:${j}" title="Remove">${esc(k)} ×</button>`).join('')}
+              <span class="chips">${c.conds.map((k, j) => `<button type="button" class="chip" data-uncond="${i}:${j}" title="Remove">${O.gi(COND_ICON[k], 16)}${esc(k)} ×</button>`).join('')}
                 <select class="cond" data-cond="${i}" aria-label="Add a condition"><option value="">+ condition</option>${CONDITIONS.map(k => `<option>${k}</option>`).join('')}</select></span></div>
             <div class="hpctl"><span>${c.hp}/${c.max}</span><input type="number" min="1" value="" placeholder="0" data-amt="${i}" aria-label="Amount for ${esc(c.name)}">
               <button type="button" class="btn small" data-dmg="${i}">Hit</button><button type="button" class="btn small" data-heal="${i}">Heal</button>
@@ -392,7 +394,7 @@
           ${S.started && cur ? `<div class="tvbanner"><b>${esc(cur.name)}’s turn</b><span>${nxt ? 'Next: ' + esc(nxt.name) : ''}</span></div>` : ''}</section>
         <aside class="tvinit"><div class="cardhead"><h2>Initiative</h2><span class="dim">${S.started ? 'Round ' + S.round : ''}</span></div>
           ${C.map((c, i) => `<div class="initrow ${i === S.turn && S.started ? 'now' : ''} ${c.hp <= 0 ? 'down' : ''}">
-            <span class="av ${c.kind}" style="${c.kind === 'pc' ? 'background:' + c.color : ''}">${esc(label(c))}</span>
+            <span class="av ${c.kind}" style="${c.kind === 'pc' ? 'background:' + c.color : c.pic ? `background-image:url('${esc(c.pic)}')` : ''}">${c.kind !== 'pc' && c.pic ? `<span>${esc(label(c))}</span>` : esc(label(c))}</span>
             <div class="who"><span class="nm">${esc(c.name)}</span>
               ${c.kind === 'pc' ? `<span class="hpbar"><i style="width:${Math.max(0, c.hp / c.max * 100)}%;background:${c.hp > c.max / 2 ? '#9BC48A' : c.hp > c.max / 4 ? '#E0A84A' : '#E07A5F'}"></i></span><span class="dim">${c.hp} / ${c.max}</span>`
                 : `<span style="color:${health(c) === 'Unhurt' ? 'var(--dim)' : 'var(--red)'}">${health(c)}</span>`}

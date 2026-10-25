@@ -22,9 +22,9 @@ Then pick the encounter and press **Load**. The party goes on the left of the gr
 - **Roll initiative** rolls a d20 for everyone, adds their bonus, and puts them in order. If your players roll their own dice at the table, press it anyway and then type their totals over the ones Olam rolled, in the boxes on the left of the list, and the order updates.
 - **Next turn** moves to the next one in line and counts the rounds. It skips monsters that are down. **Back** goes back a turn if you moved on too soon.
 - **Hit** and **Heal**: type a number in the box next to someone and press one. The bar shows their HP going from green to amber to red.
-- **+ condition** adds one of the 15 conditions, like Prone or Grappled, and clicking a condition removes it.
+- **+ condition** adds one of the 15 conditions, like Prone or Grappled, each with its icon, and clicking a condition removes it.
 - **Stats** on a monster shows its statblock right there, with the buttons that roll its attacks and damage. For a homebrew monster from your bestiary, it opens its note in Obsidian.
-- **Tokens** can be dragged around the grid, and they snap to the squares.
+- **Tokens** can be dragged around the grid, and they snap to the squares. A monster with a picture in the Codex wears it on its token.
 
 Everything you do is saved as you go, so if you close the tab or the browser crashes in the middle of a fight, it's all there when you open Table again.
 

@@ -60,6 +60,11 @@ Every key is optional. Books on the Rule shelf are also the ones Ask uses as "yo
 
 The Yours shelf is your vault. When a monster, a place or a rule comes up in your notes, it shows in the **In your world** section of its wiki page. See [Your vault](the-vault.md).
 
+## Pictures and icons
+
+- **Pictures** from [Wikimedia Commons](https://commons.wikimedia.org), found through Wikipedia: paintings, engravings and museum photos, mostly in the public domain and the rest under Creative Commons and other free licenses. `olam fetch pictures` downloads them. Wherever one shows, it names its author and license and links to its page on Commons, and **Credits & licenses** has a page listing every one of them.
+- **Icons** from [game-icons.net](https://game-icons.net), by Lorc, Delapouite and others, under CC BY 3.0. They're in `web/icons.svg`, with each icon's artist in `web/icons.json`.
+
 ## The fonts
 
 The type is IM FELL English by Igino Marini and Alegreya Sans by Juan Pablo del Peral (Huerta Tipográfica), both under the SIL Open Font License. It's in `web/fonts/OFL.txt`.

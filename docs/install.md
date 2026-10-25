@@ -60,6 +60,16 @@ Without Docker:
 
 Then restart Olam. Olam reads the archives directly, so Kiwix is only for when you want to browse a whole archive on its own.
 
+## The pictures
+
+Olam can show pictures too: old paintings of goblins and griffons, museum photos of swords and armour, and photos of the real animals behind the beasts. They come from Wikipedia and Wikimedia Commons, every one of them under a free license, and they're about 25 MB. Get them after `ingest`, since Olam looks them up by the names in your library:
+
+```bash
+docker compose run --rm olam fetch pictures       # or: .venv/bin/python -m olam.cli fetch pictures
+```
+
+There's no need to restart. Anything without a picture still has its icon, so Olam looks fine without them, just a lot less colourful.
+
 ## Turning on the AI
 
 Ask, Summarize, the Game Master and the interviews use Claude. There are two ways to connect it:

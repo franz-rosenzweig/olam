@@ -15,6 +15,7 @@ Everything Olam keeps lives in one folder: `data/` next to the code, `/data` in 
 | `olam.env` | Your settings (see below) |
 | `books.json` | Corrections and shelves for your Calibre books (see [Where it all comes from](sources.md#your-own-books)) |
 | `srd/`, `open5e/`, `zim/` | The downloads from `fetch` |
+| `pictures/` | The pictures from `fetch pictures`, and `index.json`, which says where each one came from and its license |
 
 Your vault is NOT in here. It stays wherever it is, and Olam only reads and writes it there.
 
@@ -38,7 +39,7 @@ Every setting is an environment variable, and any of them can also go in `olam.e
 | `OLAM_DEMO` | `1` runs Olam as a public demo (see below) | off |
 | `OLAM_DB` | The database file, for a demo next to your own copy | `olam.db` in the data folder |
 
-Restart Olam after you change a setting. **Settings** in the app shows what this copy is connected to: the vault, the AI and its model, Kiwix, Calibre and how many books, the archives, and how many entries are in the library.
+Restart Olam after you change a setting. **Settings** in the app is where you change your password, sign out other browsers, and pick **Auto**, **Light** or **Dark** (Auto follows your phone or computer). It also shows what this copy is connected to: the vault, the AI and its model, Kiwix, Calibre and how many books, the archives, and how many entries are in the library.
 
 ## The commands
 
@@ -48,6 +49,7 @@ All of them run as `.venv/bin/python -m olam.cli <command>`, or `docker compose 
 |---|---|
 | `fetch` | Downloads the rules: Open5e's data (with git) and the SRD 5.2.1 PDF, about 45 MB. Run it again to update Open5e's data. |
 | `fetch zims` | Downloads the newest Kiwix archives, about 1.5 GB, and removes older copies. Name one to fetch only that one, like `fetch zims dandwiki`. Restart Olam afterwards. |
+| `fetch pictures` | Finds pictures on Wikipedia and Wikimedia Commons for the library's monsters, gear, classes and species, about 25 MB. Run it after `ingest`. Olam shows them straight away. |
 | `ingest` | Builds the library from the downloads, about a minute. `ingest open5e`, `ingest srd` or `ingest calibre` rebuilds just one part. |
 | `passwd` | Sets the password, at least 8 characters, and signs out every browser. |
 | `vault-setup` | Makes the vault's World folders, templates and blank map. Never overwrites anything. |

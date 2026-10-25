@@ -2,7 +2,7 @@
 import json
 import re
 
-from . import config, db, zims
+from . import config, db, pictures, zims
 
 SHELVES = {
     "rule": "Rule", "third": "3rd-party", "expert": "Expert", "craft": "Craft", "idea": "Idea", "yours": "Yours",
@@ -19,6 +19,7 @@ def row(r, snippet=None):
         d["data"] = json.loads(d["data"])
     d["kind_label"] = KIND_LABEL.get(d["kind"], d["kind"])
     d["shelf_label"] = SHELVES.get(d["shelf"], d["shelf"])
+    pictures.decorate(d)
     if snippet is not None:
         d["snippet"] = snippet
     return d
@@ -279,7 +280,7 @@ def browse(kind=None, edition=None, letter=None, limit=500):
         where.append("name LIKE ?"); args.append(letter + "%")
     rows = c.execute(f"SELECT id,kind,name,doc,shelf,edition,grp,summary FROM entries WHERE {' AND '.join(where)} "
                      f"ORDER BY name COLLATE NOCASE LIMIT ?", args + [limit]).fetchall()
-    return [dict(r) for r in rows]
+    return [pictures.decorate(dict(r)) for r in rows]
 
 
 def stats():

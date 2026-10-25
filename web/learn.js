@@ -61,13 +61,13 @@
     const traveled = Math.min(S.stops.length, done + 1);
     const deco = '<defs><g id="rmt"><path d="M-14 9 L0 -12 L14 9" fill="none" stroke="rgba(201,165,90,.28)" stroke-width="1.4" stroke-linejoin="round"/></g>' +
       '<g id="rtr"><circle r="5" fill="none" stroke="rgba(155,174,122,.35)" stroke-width="1.2"/><path d="M0 5 V9" stroke="rgba(155,174,122,.35)" stroke-width="1.2"/></g></defs>' +
-      '<g stroke="#2B3038" stroke-dasharray="3 6">' + [209, 404.5, 600, 795.5, 991].map(x => `<path d="M${x} 14 V186"/>`).join('') + '</g>' +
+      '<g style="stroke:var(--line)" stroke-dasharray="3 6">' + [209, 404.5, 600, 795.5, 991].map(x => `<path d="M${x} 14 V186"/>`).join('') + '</g>' +
       [[70, 70], [90, 82], [150, 96], [645, 98], [668, 86], [720, 96]].map(([x, y]) => `<use href="#rtr" x="${x}" y="${y}"/>`).join('') +
       [[300, 150], [330, 160], [470, 150], [880, 140], [910, 152], [940, 142]].map(([x, y]) => `<use href="#rmt" x="${x}" y="${y}"/>`).join('');
     $('#road').innerHTML = `<svg viewBox="0 0 1200 200" aria-hidden="true">${deco}
-      <path d="${pathTo(PTS.length)}" fill="none" stroke="#3A4049" stroke-width="5" stroke-dasharray="1 11" stroke-linecap="round"/>
-      ${traveled > 1 ? `<path d="${pathTo(traveled)}" fill="none" stroke="#D9A54A" stroke-width="4" stroke-linecap="round"/>` : ''}
-      <g style="font-family:var(--serif);font-size:16px;fill:#A9A293" text-anchor="middle">${S.weeks.map((w, i) => `<text x="${WEEKLABEL[i][0]}" y="${WEEKLABEL[i][1]}">Week ${i + 1} · ${esc(w)}</text>`).join('')}</g></svg>
+      <path d="${pathTo(PTS.length)}" fill="none" style="stroke:var(--line-2)" stroke-width="5" stroke-dasharray="1 11" stroke-linecap="round"/>
+      ${traveled > 1 ? `<path d="${pathTo(traveled)}" fill="none" style="stroke:var(--brass)" stroke-width="4" stroke-linecap="round"/>` : ''}
+      <g style="font-family:var(--serif);font-size:16px;fill:var(--dim)" text-anchor="middle">${S.weeks.map((w, i) => `<text x="${WEEKLABEL[i][0]}" y="${WEEKLABEL[i][1]}">Week ${i + 1} · ${esc(w)}</text>`).join('')}</g></svg>
       ${S.stops.map((s, i) => `<button type="button" class="stop st-${s.status}${s.n === sel ? ' sel' : ''}" style="left:${POS[i][0]}%;top:${POS[i][1]}%" data-stop="${s.n}"
         aria-label="Stop ${s.n}: ${esc(s.title)}" aria-pressed="${s.n === sel}"><span>${s.n}</span></button>`).join('')}`;
     $('#road').querySelectorAll('[data-stop]').forEach(b => b.onclick = () => {
@@ -79,7 +79,7 @@
   function drawStopbar() {
     const s = S.stops[sel - 1];
     const status = { done: 'Done', current: 'In progress', locked: 'Not yet' }[s.status];
-    $('#stopbar').innerHTML = `<span class="eyebrow">Stop ${s.n}</span><span class="title">${esc(s.title)}</span>
+    $('#stopbar').innerHTML = `<span class="stopgi">${O.gi(s.icon, 22)}</span><span class="eyebrow">Stop ${s.n}</span><span class="title">${esc(s.title)}</span>
       <span class="track ${s.track}">${s.track}</span>${s.minutes ? `<span class="dim">${s.minutes} min</span>` : ''}
       <span style="color:${s.status === 'done' ? 'var(--brass-hi)' : s.status === 'current' ? 'var(--text)' : 'var(--dim)'}">${status}</span>
       ${s.status === 'locked' && S.stops[S.current - 1] ? `<button class="btn small" type="button" id="tocurrent">Back to stop ${S.current}</button>` : ''}`;
@@ -105,9 +105,9 @@
     const box = $('#lesson');
     const p = L.progress || {};
     const done = p.status === 'done';
-    box.innerHTML = `<div class="cardhead" style="align-items:flex-start"><div style="display:flex;flex-direction:column;gap:4px">
+    box.innerHTML = `<div class="cardhead" style="align-items:flex-start"><div style="display:flex;gap:14px;align-items:center"><span class="thumb ico big">${O.gi(L.icon, 34)}</span><div style="display:flex;flex-direction:column;gap:4px">
         <span class="eyebrow">Stop ${L.n} · ${esc(L.track)}${L.minutes ? ' · ' + L.minutes + ' min' : ''}</span>
-        <h2 style="font-size:32px">${esc(L.title)}</h2></div>
+        <h2 style="font-size:32px">${esc(L.title)}</h2></div></div>
         <span class="chip ${done ? 'brass' : ''}">${done ? 'Complete' : L.outline ? 'Outline' : S.stops[L.n - 1].status === 'locked' ? 'Looking ahead' : 'In progress'}</span></div>
       ${stepList().length > 1 ? `<div class="steps" role="group" aria-label="Lesson steps">${stepList().map(k => `<button type="button" data-step="${k}" class="${k === step ? 'on' : ''}" aria-pressed="${k === step}">
         ${(k === 'check' ? done : (p.steps || []).includes(k) && k !== step) ? icon('check', 14) : ''}${LABEL[k]}</button>`).join('')}</div>` : ''}
@@ -139,7 +139,7 @@
   }
 
   function srcHTML(s) {
-    if (s.type === 'entry') return `<a class="srcrow" href="#/wiki/${encodeURIComponent(s.id)}" style="text-decoration:none;color:inherit">${badge(s.shelf)}<span class="what"><span>${esc(s.title)}</span><small>${esc(s.sub)}</small></span>${icon('link', 16, '#A9A293')}</a>`;
+    if (s.type === 'entry') return `<a class="srcrow" href="#/wiki/${encodeURIComponent(s.id)}" style="text-decoration:none;color:inherit">${O.thumb(s, 'small')}${badge(s.shelf)}<span class="what"><span>${esc(s.title)}</span><small>${esc(s.sub)}</small></span>${icon('link', 16, '#A9A293')}</a>`;
     if (s.type === 'browse') return `<a class="srcrow" href="#/browse/${esc(s.kind)}" style="text-decoration:none;color:inherit">${badge('rule')}<span class="what"><span>${esc(s.title)}</span><small>${esc(s.sub)}</small></span></a>`;
     if (s.type === 'book') return `<div class="srcrow">${badge(s.shelf)}<span class="what"><span>${esc(s.title)}</span><small>${esc(s.sub)} · private</small></span>
       <div class="pages">${s.passages.map(p => `<a href="#/wiki/${encodeURIComponent(p.id)}">${esc(p.snippet).replace(/\[\[(.+?)\]\]/g, '<mark>$1</mark>')}</a>`).join('')}</div></div>`;

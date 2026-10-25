@@ -11,7 +11,7 @@ from pathlib import Path
 
 import yaml
 
-from . import config, db, library
+from . import config, db, icons, library, pictures
 
 MAP_NOTE = "World/Maps/World map.md"
 PLACES = "World/Places"
@@ -190,7 +190,7 @@ def places(folder=PLACES):
             loc = None
         out.append({"name": p.stem, "rel": rel_of(p), "location": loc, "type": str(fm.get("type") or ""),
                     "visited": bool(fm.get("visited")), "dm_only": bool(fm.get("dm-only")),
-                    "excerpt": excerpt(body), "people": homes.get(p.stem.lower(), [])})
+                    "excerpt": excerpt(body), "people": homes.get(p.stem.lower(), []), "icon": icons.for_place(str(fm.get("type") or ""))})
     return out
 
 
@@ -388,7 +388,7 @@ def creature_stats(name):
     if not e:
         return {"hp": 0, "ac": 0, "init": 0, "xp": 0, "note": r or "", "id": ""}
     d = e.get("data") or {}
-    return {"hp": d.get("hp") or 1, "ac": d.get("ac") or 10,
+    return {"hp": d.get("hp") or 1, "ac": d.get("ac") or 10, "icon": e.get("icon", ""),
             "init": d.get("initiative") if d.get("initiative") is not None else (d["abilities"][1]["score"] - 10) // 2,
             "xp": d.get("xp") or vault.XP.get(str(d.get("cr", "")), 0), "note": r or "", "id": e["id"]}
 
@@ -420,7 +420,9 @@ def parse_encounter(text):
         nums = [int(x) for x in re.findall(r"-?\d+", rest)]
         st = creature_stats(name.strip())
         hp, ac, ini, xp = (nums + [None] * 4)[:4]
-        out.append({"n": n, "name": name.strip(), "hp": hp if hp is not None else st["hp"], "ac": ac if ac is not None else st["ac"],
+        pic = pictures.lookup("monster", re.sub(r"\s*\(.*\)$", "", name.strip()))
+        out.append({"n": n, "name": name.strip(), "pic": pic["src"] if pic else "", "icon": st.get("icon", "monster-grasp"),
+                    "hp": hp if hp is not None else st["hp"], "ac": ac if ac is not None else st["ac"],
                     "init": ini if ini is not None else st["init"], "xp": xp if xp is not None else st["xp"],
                     "id": st["id"], "note": st["note"]})
     return out

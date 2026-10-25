@@ -41,7 +41,17 @@ const I = O.I = {
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
 };
 const icon = O.icon = (name, size = 20, stroke = 'currentColor') =>
-  `<svg aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${I[name]}</svg>`;
+  `<svg aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" style="stroke:${stroke}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${I[name]}</svg>`;
+
+// ---------- pictures and game icons ----------
+// Game icons (game-icons.net, CC BY 3.0) from the sprite; pictures (Wikipedia/Commons) come with their credit.
+const gi = O.gi = (name, size = 24) => `<svg class="gi" aria-hidden="true" width="${size}" height="${size}"><use href="static/icons.svg#gi-${name || 'open-book'}"/></svg>`;
+const DIE = { 4: 'd4', 6: 'perspective-dice-six', 8: 'dice-eight-faces-eight', 10: 'd10', 12: 'd12', 20: 'dice-twenty-faces-twenty' };
+O.die = (sides, size = 18) => gi(DIE[sides] || 'rolling-dices', size);
+O.credit = p => `${esc(p.author)} · ${p.license_url ? `<a href="${esc(p.license_url)}" target="_blank" rel="noopener">${esc(p.license)}</a>` : esc(p.license)} · <a href="${esc(p.source)}" target="_blank" rel="noopener">Commons</a>`;
+O.thumb = (e, cls = '') => e && e.pic
+  ? `<img class="thumb ${cls}" src="${esc(e.pic.src || e.pic)}" alt="" loading="lazy"${e.pic.author ? ` title="${esc(e.pic.author + ' · ' + e.pic.license)}"` : ''}>`
+  : `<span class="thumb ico ${cls}">${gi(e && e.icon, cls.includes('big') ? 34 : 22)}</span>`;
 
 // ---------- trust badges ----------
 const SHELF = { rule: 'Rule', third: '3rd-party', expert: 'Expert', craft: 'Craft', idea: 'Idea', yours: 'Yours', summary: 'Summary' };
@@ -157,7 +167,8 @@ O.toast = (total, label, detail) => {
   const log = $('#rolllog');
   const el = document.createElement('div');
   el.className = 'rolltoast';
-  el.innerHTML = `<b>${esc(total)}</b><span>${esc(label)}<small>${esc(detail)}</small></span>`;
+  const sides = Number((String(detail).match(/d(\d+)/) || [])[1]) || 20;
+  el.innerHTML = `${O.die(sides, 30)}<b>${esc(total)}</b><span>${esc(label)}<small>${esc(detail)}</small></span>`;
   log.prepend(el);
   setTimeout(() => el.remove(), 7000);
   while (log.children.length > 4) log.lastChild.remove();
@@ -201,8 +212,8 @@ O.statblock = (e) => {
     return `<h3>${label}</h3>` + list.map(a => {
       const rolls = (a.attacks || []).map(t => {
         const dmg = t.dice ? `${t.dice}${t.bonus ? (t.bonus > 0 ? ' + ' : ' − ') + Math.abs(t.bonus) : ''}` : '';
-        return (t.to_hit != null ? `<button class="roll" data-roll="hit|${t.to_hit}|${esc(e.name + ' · ' + a.name)}">${icon('d20', 16)}${sign(t.to_hit)} to hit</button>` : '') +
-          (dmg ? `<button class="roll" data-roll="dmg|${esc(dmg.replace(/\s/g, ''))}|${esc(e.name + ' · ' + a.name)}">${esc(dmg)} ${esc(t.type || '')}</button>` : '');
+        return (t.to_hit != null ? `<button class="roll" data-roll="hit|${t.to_hit}|${esc(e.name + ' · ' + a.name)}">${O.die(20, 18)}${sign(t.to_hit)} to hit</button>` : '') +
+          (dmg ? `<button class="roll" data-roll="dmg|${esc(dmg.replace(/\s/g, ''))}|${esc(e.name + ' · ' + a.name)}">${O.die(Number((dmg.match(/d(\d+)/) || [])[1]), 18)}${esc(dmg)} ${esc(t.type || '')}</button>` : '');
       }).join('');
       return `<div><p><b><i>${esc(a.name)}${a.cost > 1 ? ` (Costs ${a.cost} Actions)` : ''}.</i></b> ${O.linkTerms(esc(a.desc), e.id)}</p>${rolls ? `<div>${rolls}</div>` : ''}</div>`;
     }).join('');
@@ -347,7 +358,7 @@ O.routes.codex = async (main, r) => {
   const third = r.q.get('third') === '1';
   main.innerHTML = `<header class="pagehead"><div><span class="eyebrow">Library</span><h1>Codex</h1></div>
     <div class="seg" role="group" aria-label="Edition">${EDITIONS.map(([k, l]) => `<button type="button" data-ed="${k}" class="${k === ed ? 'on' : ''}" aria-pressed="${k === ed}">${l}</button>`).join('')}</div></header>
-    <form class="searchbar" id="sform">${icon('search', 20, '#A9A293')}<input type="search" id="sq" aria-label="Search the library" placeholder="Owlbear, grappling, fireball, the Menagerie" value="${esc(q)}" autofocus><span class="dim" id="scount"></span></form>
+    <form class="searchbar" id="sform">${icon('search', 20, 'var(--dim)')}<input type="search" id="sq" aria-label="Search the library" placeholder="Owlbear, grappling, fireball, the Menagerie" value="${esc(q)}" autofocus><span class="dim" id="scount"></span></form>
     <div class="row"><div class="facets" role="group" aria-label="Type">
       <span class="eyebrow">Type</span>
       ${KINDS.map(([k, l]) => `<button type="button" data-kind="${k}" class="${k === kind ? 'on' : ''}" aria-pressed="${k === kind}">${l}</button>`).join('')}
@@ -381,15 +392,17 @@ O.routes.codex = async (main, r) => {
       ${a.pages.map(p => zimLine(p)).join('')}</section>`).join('') || '';
 };
 function browseHTML() {
-  const links = [['monster', 'Monsters'], ['spell', 'Spells'], ['magic-item', 'Magic items'], ['class', 'Classes'], ['species', 'Species'], ['background', 'Backgrounds'], ['feat', 'Feats'], ['condition', 'Conditions'], ['glossary', 'Rules Glossary']];
-  return `<div class="grid2">${links.map(([k, l]) => `<a class="tile" href="#/browse/${k}">${esc(l)}<span class="dim" style="font-size:13px">SRD 5.2</span></a>`).join('')}
-    <a class="tile" href="#/wiki/srd-2024%2Fmonster%2Fowlbear"><span>Owlbear</span><span class="dim" style="font-size:13px">A wiki page to start with</span></a></div>`;
+  const links = [['monster', 'Monsters', 'dragon-head'], ['spell', 'Spells', 'magic-swirl'], ['magic-item', 'Magic items', 'crystal-ball'], ['item', 'Equipment', 'battle-axe'],
+    ['class', 'Classes', 'wizard-staff'], ['species', 'Species', 'elf-ear'], ['background', 'Backgrounds', 'scroll-unfurled'], ['feat', 'Feats', 'laurels-trophy'],
+    ['condition', 'Conditions', 'knocked-out-stars'], ['glossary', 'Rules Glossary', 'spell-book']];
+  return `<div class="grid2">${links.map(([k, l, g]) => `<a class="tile itile" href="#/browse/${k}"><span class="thumb ico">${gi(g, 26)}</span><span>${esc(l)}<span class="dim" style="font-size:13px;display:block">SRD 5.2</span></span></a>`).join('')}
+    <a class="tile itile" href="#/wiki/srd-2024%2Fmonster%2Fowlbear"><span class="thumb ico">${gi('griffin-symbol', 26)}</span><span>Owlbear<span class="dim" style="font-size:13px;display:block">A wiki page to start with</span></span></a></div>`;
 }
 function resultHTML(e) {
   const ed = e.edition && e.edition !== '2024' ? `<span class="chip" style="padding:1px 8px;font-size:12px">${esc(e.edition)}</span>` : '';
   const sub = e.kind === 'book' ? `${esc(e.summary || '')} · ${esc(e.grp || '')}` : `${esc(e.kind_label)} · ${esc(e.summary || '')}`;
-  return `<a class="result" href="#/wiki/${encodeURIComponent(e.id)}"><span class="t">${esc(e.name)} ${O.badge(e.shelf)}${ed}${e.private ? O.badge('private', 'Private') : ''}</span>
-    <span class="s">${sub} · ${esc(e.doc)}</span>${e.snippet && e.kind === 'book' ? `<span class="snip">${O.esc(e.snippet).replace(/\[\[(.+?)\]\]/g, '<mark>$1</mark>')}</span>` : ''}</a>`;
+  return `<a class="result rthumb" href="#/wiki/${encodeURIComponent(e.id)}">${O.thumb(e)}<span class="rb"><span class="t">${esc(e.name)} ${O.badge(e.shelf)}${ed}${e.private ? O.badge('private', 'Private') : ''}</span>
+    <span class="s">${sub} · ${esc(e.doc)}</span>${e.snippet && e.kind === 'book' ? `<span class="snip">${O.esc(e.snippet).replace(/\[\[(.+?)\]\]/g, '<mark>$1</mark>')}</span>` : ''}</span></a>`;
 }
 function zimLine(p) {
   const meta = p.votes != null ? `${p.votes} votes · ${p.answers} answers${p.tags?.length ? ' · ' + p.tags.slice(0, 2).join(', ') : ''}` : (p.note || '');
@@ -405,7 +418,9 @@ O.routes.browse = async (main, r) => {
   const groups = {};
   list.forEach(e => (groups[e.name[0].toUpperCase()] ||= []).push(e));
   main.innerHTML = `<header class="pagehead"><div><a class="eyebrow" href="#/codex">Codex</a><h1>${esc({ 'magic-item': 'Magic items', glossary: 'Rules Glossary' }[kind] || kind[0].toUpperCase() + kind.slice(1) + (kind.endsWith('s') ? '' : 's'))}</h1></div><span class="dim">${list.length} · SRD 5.2</span></header>
-    ${Object.entries(groups).map(([L, es]) => `<section class="card"><h2>${esc(L)}</h2><div class="chips">${es.map(e => `<a class="chip" href="#/wiki/${encodeURIComponent(e.id)}">${esc(e.name)}${e.summary && kind === 'monster' ? ` <span class="dim">${esc(e.summary.split('CR ')[1] ? 'CR ' + e.summary.split('CR ')[1] : '')}</span>` : ''}</a>`).join('')}</div></section>`).join('')}`;
+    ${Object.entries(groups).map(([L, es]) => `<section class="card"><h2>${esc(L)}</h2><div class="gallery">${es.map(e => `<a class="gcard" href="#/wiki/${encodeURIComponent(e.id)}">
+      <span class="gimg">${e.pic ? `<img src="${esc(e.pic.src)}" alt="" loading="lazy" title="${esc(e.pic.author + ' · ' + e.pic.license)}">` : gi(e.icon, 44)}</span>
+      <b>${esc(e.name)}</b><small>${esc(kind === 'monster' && e.summary ? e.summary : (e.summary || '').slice(0, 60))}</small></a>`).join('')}</div></section>`).join('')}`;
 };
 
 // ---------- wiki hub ----------
@@ -429,7 +444,7 @@ O.routes.wiki = async (main, r) => {
       ${S.books.filter(b => b.shelf === 'rule').map(bookRow).join('')}</section>`);
     const vs = S.versions.filter(v => (v.shelf === 'rule' ? show.rule : show.third));
     if (vs.length) parts.push(`<section class="card" id="s-versions"><div class="cardhead"><h2>Other versions</h2></div>
-      ${vs.map(v => `<a class="srcrow" href="#/wiki/${encodeURIComponent(v.id)}" style="text-decoration:none;color:inherit">${O.badge(v.shelf)}<span class="what"><span>${esc(v.name)}${v.edition ? ` <span class="dim">· ${esc(v.edition)}</span>` : ''}</span><small>${esc(v.doc_name)} · ${esc(v.license)}</small></span><span class="dim" style="font-size:14px">${esc(v.summary || '')}</span></a>`).join('')}</section>`);
+      ${vs.map(v => `<a class="srcrow" href="#/wiki/${encodeURIComponent(v.id)}" style="text-decoration:none;color:inherit">${O.thumb(v, 'small')}${O.badge(v.shelf)}<span class="what"><span>${esc(v.name)}${v.edition ? ` <span class="dim">· ${esc(v.edition)}</span>` : ''}</span><small>${esc(v.doc_name)} · ${esc(v.license)}</small></span><span class="dim" style="font-size:14px">${esc(v.summary || '')}</span></a>`).join('')}</section>`);
     if (show.expert && S.expert.pages.length) parts.push(`<section class="card" id="s-expert"><div class="cardhead"><h2>Expert answers</h2><span class="chips"><span class="dim" style="font-size:13px">RPG Stack Exchange · ${S.expert.total.toLocaleString()} pages</span>${O.badge('expert')}</span></div>
       ${S.expert.pages.map(p => zimLine(p)).join('')}</section>`);
     if (show.idea && S.homebrew.pages.length) parts.push(`<section class="card dashed" id="s-homebrew"><div class="cardhead"><h2>Homebrew</h2><span class="chips"><span class="dim" style="font-size:13px">D&amp;D Wiki · ${S.homebrew.total} pages · ${S.homebrew.mentions} mentions</span>${O.badge('idea', 'Idea · not official')}</span></div>
@@ -459,9 +474,11 @@ O.routes.wiki = async (main, r) => {
   const tally = [['rule', 1 + S.versions.filter(v => v.shelf === 'rule').length + S.books.filter(b => b.shelf === 'rule').length], ['third', S.versions.filter(v => v.shelf === 'third').length],
     ['expert', S.expert.total + S.myth.length], ['craft', S.craft.total], ['idea', S.homebrew.total + S.books.filter(b => b.shelf !== 'rule').length], ['yours', S.yours.length]];
   main.innerHTML = `<div class="chips" style="font-size:14px"><a href="#/codex">Codex</a><span class="dim">›</span><span class="dim">${esc(e.kind_label)}</span></div>
-    <header class="pagehead hubhead"><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h1>${esc(e.name)}</h1>
+    <header class="pagehead hubhead"><div class="hubtop">${e.pic ? `<figure class="hero"><a href="${esc(e.pic.article)}" target="_blank" rel="noopener"><img src="${esc(e.pic.src)}" alt="${esc(e.name)}, from Wikipedia"></a>
+        <figcaption>${O.credit(e.pic)}</figcaption></figure>` : `<span class="heroicon">${gi(e.icon, 64)}</span>`}
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h1>${esc(e.name)}</h1>
       <span style="font-size:18px;color:var(--text-2)">${esc(e.summary || e.kind_label)}${e.edition ? ' · ' + esc(e.edition === '2024' ? '2024 rules' : e.edition) : ''}</span>
-      <span class="mono dim">${esc(e.doc_name)}${e.license ? ' · ' + esc(e.license) : ''}</span></div>
+      <span class="mono dim">${esc(e.doc_name)}${e.license ? ' · ' + esc(e.license) : ''}</span></div></div>
       <div class="chips">${!O.demo && e.kind === 'monster' ? `<button class="btn" type="button" id="tovault">${icon('pen', 18)}Add to vault</button>
         <button class="btn" type="button" id="toenc">${icon('d20', 18)}Add to encounter</button>` : ''}
       ${!O.ai ? '' : `<a class="btn" href="#/ask?q=${encodeURIComponent('Tell me about ' + e.name)}">${icon('ask', 18)}Ask about this</a>`}</div></header>
@@ -515,7 +532,15 @@ O.routes.read = async (main, r) => {
 const SRD52 = 'This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.';
 const SRD51 = 'This work includes material taken from the System Reference Document 5.1 (“SRD 5.1”) by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License available at https://creativecommons.org/licenses/by/4.0/legalcode.';
 const linkify = s => esc(s).replace(/https?:\/\/[^\s)]+[^\s).,]/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
-O.routes.credits = async (main) => {
+O.routes.credits = async (main, r) => {
+  if (r && r.rest === 'pictures') {
+    const ps = await O.api('credits/pictures');
+    main.innerHTML = `<div class="chips" style="font-size:14px"><a href="#/credits">Credits &amp; licenses</a><span class="dim">›</span><span class="dim">Pictures</span></div>
+      <header class="pagehead"><div><span class="eyebrow">Wikimedia Commons</span><h1>Pictures</h1></div><span class="dim">${ps.length}</span></header>
+      <div class="picgrid">${ps.map(p => `<figure><a href="${esc(p.source)}" target="_blank" rel="noopener"><img src="${esc(p.src)}" alt="" loading="lazy"></a>
+        <b>${esc(p.for.slice(0, 4).join(', '))}${p.for.length > 4 ? ' …' : ''}</b><span>${O.credit(p)} · <a href="${esc(p.article)}" target="_blank" rel="noopener">${esc(p.title)}</a></span></figure>`).join('')}</div>`;
+    return;
+  }
   const c = await O.api('credits');
   const other = c.docs.filter(d => !['srd-2024', 'srd-2014'].includes(d.key));
   const ARCH = { 'CC BY-SA': 'https://creativecommons.org/licenses/by-sa/4.0/', 'GFDL': 'https://www.gnu.org/licenses/fdl-1.3.html' };
@@ -525,6 +550,9 @@ O.routes.credits = async (main) => {
     ${other.length ? `<section class="card prose"><h2>Other books</h2><ul>${other.map(d => `<li><strong>${esc(d.name)}</strong>${d.publisher ? ' by ' + esc(d.publisher) : ''}${d.url ? `, ${linkify(d.url)}` : ''}. ${esc(d.license)}. The text comes from the <a href="https://github.com/open5e/open5e-api" target="_blank" rel="noopener">Open5e</a> project’s data.${d.note ? ' ' + linkify(d.note) : ''}</li>`).join('')}</ul></section>` : ''}
     <section class="card prose"><h2>The archives</h2><ul>${c.archives.map(a => `<li><strong>${esc(a.label)}</strong>, from the Kiwix offline archive ${esc(a.book)}. ${ARCH[a.license] ? `<a href="${ARCH[a.license]}" target="_blank" rel="noopener">${esc(a.license)}</a>` : esc(a.license)}. Every page Olam shows names its authors and links to the original.</li>`).join('')}</ul>
       <p>Stack Exchange questions and answers are by their authors on the Stack Exchange network. D&amp;D Wiki pages are by its contributors at dandwiki.com.</p></section>
+    ${c.pictures && c.pictures.entries ? `<section class="card prose"><h2>Pictures</h2><p>${c.pictures.files} pictures from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, found through Wikipedia, illustrate ${c.pictures.entries} entries. Each one names its author and license where it’s shown and links to its page on Commons.</p>
+      <p class="dim">${Object.entries(c.pictures.licenses).sort((a, b) => b[1] - a[1]).map(([l, n]) => `${esc(l)} (${n})`).join(' · ')}</p><p><a href="#/credits/pictures">Every picture, with its credit</a></p></section>` : ''}
+    ${c.icons && c.icons.length ? `<section class="card prose"><h2>Icons</h2><p>Icons by ${c.icons.map(a => esc(a.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' '))).join(', ')}, from <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</p></section>` : ''}
     <section class="card prose"><h2>Type</h2><p>IM Fell English by Igino Marini and Alegreya Sans by Juan Pablo del Peral (Huerta Tipográfica), both under the SIL Open Font License.</p></section>`;
 };
 
@@ -544,6 +572,8 @@ O.routes.settings = async (main) => {
     <section class="card"><div class="cardhead"><h2>Sign-in</h2></div>
       <div class="chips"><button class="btn" type="button" id="soothers">Sign out other browsers</button><button class="btn" type="button" id="soself">Sign out</button>
         <span class="dim hidden" id="sook">${icon('check', 18)}Done</span></div></section>
+    <section class="card"><div class="cardhead"><h2>Appearance</h2></div>
+      <div class="seg" id="themeseg">${[['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => `<button type="button" data-theme="${k}" class="${window.olamTheme() === k ? 'on' : ''}">${l}</button>`).join('')}</div></section>
     <section class="card"><div class="cardhead"><h2>Connected</h2><span class="mono dim">olam.env</span></div>
       ${row('Vault', s.vault ? esc(s.vault) + (s.vault_ok ? '' : ' · not found') : 'None', !!s.vault)}
       ${row('AI', esc(AI))}
@@ -563,6 +593,11 @@ O.routes.settings = async (main) => {
     } catch (e) { $('#pwerr').textContent = e.message; }
   };
   $('#soothers').onclick = async () => { await O.api('account/signout-others', { body: {} }); $('#sook').classList.remove('hidden'); };
+  $('#themeseg').onclick = ev => {
+    const b = ev.target.closest('[data-theme]'); if (!b) return;
+    window.olamTheme(b.dataset.theme);
+    $('#themeseg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  };
   $('#soself').onclick = async () => { await O.api('logout', { body: {} }); $('#app').innerHTML = ''; O.showLogin(); };
 };
 
@@ -572,7 +607,7 @@ O.routes.ask = async (main, r) => {
   if (!O.ai) { main.innerHTML = `<div class="empty">${O.demo ? 'Ask is off in the demo' : 'The AI features are off'}</div>`; return; }
   const q = r.q.get('q') || '';
   main.innerHTML = `<header class="pagehead"><div><span class="eyebrow">Your books, cited</span><h1>Ask</h1></div></header>
-    <form class="searchbar" id="aform">${icon('ask', 20, '#A9A293')}<input id="aq" aria-label="Question" placeholder="Ask a rules question" value="${esc(q)}" autofocus><button class="btn primary" type="submit">Ask</button></form>
+    <form class="searchbar" id="aform">${icon('ask', 20, 'var(--dim)')}<input id="aq" aria-label="Question" placeholder="Ask a rules question" value="${esc(q)}" autofocus><button class="btn primary" type="submit">Ask</button></form>
     <div class="chips">${PRESETS.map(p => `<a class="chip" href="#/ask?q=${encodeURIComponent(p)}">${esc(p)}</a>`).join('')}</div>
     <div id="answer"></div>`;
   $('#aform').onsubmit = ev => { ev.preventDefault(); const v = $('#aq').value.trim(); if (v) O.go('#/ask?q=' + encodeURIComponent(v)); };
